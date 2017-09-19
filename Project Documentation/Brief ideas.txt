@@ -1,0 +1,26 @@
+major:
+  when entring the room,turn on the speaker
+  when leaving the room, turn off the speaker
+ 
+  when entring the room,turn on the light
+  when leaving the room, turn off the light
+  manually control the light via android app
+  
+  turn on/off the light
+  increase/decrease brightness
+
+  add new dash button (set up)
+  add new light 
+  add new speaker
+  disable new dash button
+  disable new light
+  disable new speaker
+  add users
+  support mutiple users(avoid permission conflict)
+  
+  manually control the light via dash button
+ 
+non-major:
+support mutiple users
+
+
