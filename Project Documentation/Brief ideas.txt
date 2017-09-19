@@ -1,6 +1,6 @@
 major:
   when entring the room,turn on the speaker
-  when leaving the room, turn off the speaker
+  when leaving the room,turn off the speaker
  
   when entring the room,turn on the light
   when leaving the room, turn off the light
@@ -21,6 +21,7 @@ major:
   manually control the light via dash button
  
 non-major:
-support mutiple users
-
-
+  support mutiple users
+  authenticate users
+  accessible to the outside
+  secure the server as signle point of failure
