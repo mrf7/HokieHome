@@ -24,4 +24,4 @@ non-major:
   support mutiple users
   authenticate users
   accessible to the outside
-  secure the server as signle point of failure
+  secure the server as signal point of failure
