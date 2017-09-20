@@ -29,7 +29,9 @@ major use cases:
 
 non-functional requirements:
   support multiple users
-  authenticate users
-  accessible to the outside
-  secure the server as signal point of failure
-  
+  authenticate users (Security)
+  accessible to the outside the network
+  secure the server as signal point of failure (Security)
+  Must use an Android device
+  Protect user data (Security)
+   
