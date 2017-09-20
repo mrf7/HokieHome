@@ -1,27 +1,35 @@
-major:
-  when entring the room,turn on the speaker
+major use cases:
+  when entering the room,turn on the speaker
   when leaving the room,turn off the speaker
  
-  when entring the room,turn on the light
+  when entering the room,turn on the light
   when leaving the room, turn off the light
-  manually control the light via android app
-  
-  turn on/off the light
-  increase/decrease brightness
+
+  manually control the light via android app  
+  	turn on/off the light
+  	increase/decrease brightness
+
+  manually control the light via dash button
 
   add new dash button (set up)
   add new light 
   add new speaker
-  disable new dash button
-  disable new light
-  disable new speaker
-  add users
-  support mutiple users(avoid permission conflict)
+
+  disable/remove dash button
+  disable/remove light
+  disable/remove speaker
+
+  add user
+  change user password
+  remove user
+  Calibrate room boundaries
+  //support multiple users(avoid permission conflict)
   
-  manually control the light via dash button
  
-non-major:
-  support mutiple users
+
+non-functional requirements:
+  support multiple users
   authenticate users
   accessible to the outside
   secure the server as signal point of failure
+  
