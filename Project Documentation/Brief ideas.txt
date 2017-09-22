@@ -1,9 +1,18 @@
+Actors:
+User (Phone)
+Server
+Lights
+Speaker
+Dash Button
+
 major use cases:
-  when entering the room,turn on the speaker
+Each Person choose 4 and put your name beside of it.
+
+  when entering the room,turn on the speaker  (Jordan)
   when leaving the room,turn off the speaker
  
   when entering the room,turn on the light
-  when leaving the room, turn off the light
+  when leaving the room, turn off the light  (Jordan)
 
   manually control the light via android app  
   	turn on/off the light
@@ -11,16 +20,16 @@ major use cases:
 
   manually control the light via dash button
 
-  add new dash button (set up)
+  add new dash button (set up) 
   add new light 
-  add new speaker
+  add new speaker   (Jordan)
 
   disable/remove dash button
   disable/remove light
   disable/remove speaker
 
   add user
-  change user password
+  change user password (Jordan)
   remove user
   Calibrate room boundaries
   //support multiple users(avoid permission conflict)
