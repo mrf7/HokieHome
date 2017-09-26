@@ -8,30 +8,30 @@ Dash Button
 major use cases:
 Each Person choose 4 and put your name beside of it.
 
-  when entering the room,turn on the speaker  (Jordan)
-  when leaving the room,turn off the speaker (John)
- 
-  when entering the room,turn on the light   (John)
-  when leaving the room, turn off the light  (Jordan)
+  when entering the room,turn on the speaker    (Jordan)
+  when leaving the room,turn off the speaker    (John)
+    
+  when entering the room,turn on the light      (John)
+  when leaving the room, turn off the light     (Jordan)
+    
+  manually control the light via android app     
+  	turn on/off the light                       
+  	increase/decrease brightness                (John)
+    
+  manually control the light via dash button    (John)
+    
+  add new dash button                           (Michael) 
+  add new light                                 (Michael)
+  add new speaker                               (Jordan)
+    
+  disable/remove dash button                    (Michael)
+  disable/remove light                          (Michael)
+  disable/remove speaker                        (Yibing)
 
-  manually control the light via android app  
-  	turn on/off the light
-  	increase/decrease brightness               (John)
-
-  manually control the light via dash button (John)
-
-  add new dash button (set up) 
-  add new light 
-  add new speaker   (Jordan)
-
-  disable/remove dash button
-  disable/remove light
-  disable/remove speaker
-
-  add user
-  change user password (Jordan)
-  remove user
-  Calibrate room boundaries
+  add user                                      (Yibing)
+  change user password                          (Jordan)
+  remove user                                   (Yibing)
+  Calibrate room boundaries                     (Yibing)
   //support multiple users(avoid permission conflict)
   
  
