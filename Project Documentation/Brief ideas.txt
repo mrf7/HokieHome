@@ -15,7 +15,7 @@ Each Person choose 4 and put your name beside of it.
   when leaving the room, turn off the light     (Jordan)
     
   manually control the light via android app     
-  	turn on/off the light                       (Michael)
+  	turn on/off the light                       
   	increase/decrease brightness                (John)
     
   manually control the light via dash button    (John)
