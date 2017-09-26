@@ -40,7 +40,7 @@ non-functional requirements:
   support multiple users
   authenticate users (Security)
   accessible to the outside the network
-  secure the server as signal point of failure (Security)
+  secure the server as single point of failure (Security)
   Must use an Android device
   Protect user data (Security)
    
