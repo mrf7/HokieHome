@@ -16,6 +16,9 @@ def turnoff():
     GPIO.output(18,GPIO.LOW)
     print "LED off"
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(18, GPIO.OUT)
 
 #sys.argv[1] is the ip address of the server, sys.argv[2] is the port number
 socketIO = SocketIO(sys.argv[1], sys.argv[2])
