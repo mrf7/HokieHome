@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Home_automation</string>
+    <string name="welcome_to_our_home_autoomation_app">Welcome to our Home_autoomation App</string>
+    <string name="room1">room1</string>
+    <string name="room2">room2</string>
+    <string name="room3">room3</string>
+    <string name="roomname">roomName</string>
+    <string name="brightness">brightness</string>
+</resources>
