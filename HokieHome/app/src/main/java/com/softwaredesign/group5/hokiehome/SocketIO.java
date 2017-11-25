@@ -43,18 +43,34 @@ public class SocketIO {
         mSocket.connect();
     }
 
-    public void createAccount(JSONObject message) {
+    /**
+     * method used to send a create Object message
+     * @param message
+     */
+    public void createObject(JSONObject message) {
         mSocket.emit("Create", message);
     }
 
+    /**
+     * method used to send an account changes message
+     * @param message
+     */
     public void sendAccountChanges(JSONObject message) {
         mSocket.emit("Changes", message);
     }
 
+    /**
+     * method used to send a command message
+     * @param message
+     */
     public void sendCommands(JSONObject message) {
         mSocket.emit("Command", message);
     }
 
+
+    /**
+     * listens to server callbacks
+     */
     private Emitter.Listener onNewMessage = new Emitter.Listener() {
 
         @Override

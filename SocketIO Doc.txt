@@ -1,0 +1,34 @@
+Socket IO Syntax:
+
+Currently 2 Emittable Events:
+
+"Create" for creating objects
+		Json format:
+		Adding User
+			"Action" - "Add"
+			"Object" - "User"
+			"Name" - The User's Username
+			"Pass" - The User's Password
+			"PreBright" - The User's Prefered Brightness
+	    Adding Lights
+			"Action" - "Add"
+			"Object" - "Light"
+			"Room" - room name that holds it
+			"Name" - light mac address
+		Adding Room
+			"Action" - "Add"
+			"Object" - "Room"
+			"Name" - Room name
+		Adding Dash Button
+			"Action" - "Add"
+			"Object" - "Dash"
+			"Name" - dash button's mac address
+			"Lights" - arraylist of lights that it controls
+
+"Command" for commands pertaining to objects
+		Json Format:
+		Enter Room
+			"Action" - "Enter"
+			"Object" - "Room"
+			"Brightness" - User Prefered Brightness (could just be held server side)
+			"Name" - room name

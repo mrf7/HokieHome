@@ -24,6 +24,10 @@ public class BeaconManager{
         return currentClosest;
     }
 
+    /**
+     * finds the closest beacon out of the list of beacons
+     * @return closest beacon
+     */
     public Beacon findClosestBeacon()
 
     {
@@ -41,6 +45,13 @@ public class BeaconManager{
         return closestBeacon;
     }
 
+    /**
+     * adds a new beacon to the list
+     * @param name name of beacon
+     * @param mac mac address of beacon
+     * @param room room that the beacon is associated with
+     * @return true if added. // needs a way to confirm a valid mac address
+     */
     public boolean addNewBeacon(String name, String mac, String room)
     {
         Beacon b = new Beacon.Builder().setBluetoothName(name).setBluetoothAddress(mac)

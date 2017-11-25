@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 /**
  * Created by Jordan on 11/25/2017.
+ * Service that will run in the background to control the beacons and server communication
  */
 
 public class ManagerService extends Service {
