@@ -29,6 +29,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void setLightBrightness(Light l, int brightness)
+    {
+        JSONObject com = new JSONObject();
+        try {
+            com.put("Action", "Power");
+            com.put("Object", "Light");
+            com.put("Brightness", brightness);
+            com.put("Name", l.getMAC());
+            IO.sendCommands(com);
+            l.setCurrentBrightness(brightness);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void OnDashPressed(DashButton d)
+    {
+        JSONObject com = new JSONObject();
+        try {
+            com.put("Action", "Pressed");
+            com.put("Object", "Dash");
+            com.put("Brightness", currentUser.getPreBrightness());
+            com.put("Name", d.getMac());
+            IO.sendCommands(com);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void enteredRoom(Room r)
+    {
+        JSONObject com = new JSONObject();
+        try {
+            com.put("Action", "Enter");
+            com.put("Object", "Room");
+            com.put("Brightness", currentUser.getPreBrightness());
+            com.put("Name", r.getName());
+            IO.sendCommands(com);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 

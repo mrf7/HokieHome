@@ -39,24 +39,15 @@ public class IOManager {
         mSocket.connect();
     }
 
-    public void createAccount(String message) {
-        if (TextUtils.isEmpty(message)) {
-            return;
-        }
+    public void createAccount(JSONObject message) {
         mSocket.emit("Create", message);
     }
 
-    public void sendAccountChanges(String message) {
-        if (TextUtils.isEmpty(message)) {
-            return;
-        }
+    public void sendAccountChanges(JSONObject message) {
         mSocket.emit("Changes", message);
     }
 
-    public void sendCommands(String message) {
-        if (TextUtils.isEmpty(message)) {
-            return;
-        }
+    public void sendCommands(JSONObject message) {
         mSocket.emit("Command", message);
     }
 

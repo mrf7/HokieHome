@@ -5,4 +5,6 @@ package com.softwaredesign.group5.hokiehome;
  */
 
 public class BeaconManager {
+
+
 }
