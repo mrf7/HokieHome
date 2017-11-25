@@ -5,4 +5,14 @@ package com.softwaredesign.group5.hokiehome;
  */
 
 public class DashButton {
+    String mac;
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public String getMac() {
+
+        return mac;
+    }
 }

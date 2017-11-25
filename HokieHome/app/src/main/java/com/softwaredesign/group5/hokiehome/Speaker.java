@@ -5,4 +5,13 @@ package com.softwaredesign.group5.hokiehome;
  */
 
 public class Speaker {
+    String MAC;
+
+    public String getMAC() {
+        return MAC;
+    }
+
+    public void setMAC(String MAC) {
+        this.MAC = MAC;
+    }
 }

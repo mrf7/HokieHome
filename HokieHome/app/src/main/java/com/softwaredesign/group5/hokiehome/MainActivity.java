@@ -45,20 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void OnDashPressed(DashButton d)
-    {
-        JSONObject com = new JSONObject();
-        try {
-            com.put("Action", "Pressed");
-            com.put("Object", "Dash");
-            com.put("Brightness", currentUser.getPreBrightness());
-            com.put("Name", d.getMac());
-            IO.sendCommands(com);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void enteredRoom(Room r)
     {
         JSONObject com = new JSONObject();
@@ -73,8 +59,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void addLight(Room r, Light l)
+    {
+        JSONObject com = new JSONObject();
+        try {
+            com.put("Action", "Add");
+            com.put("Object", "Light");
+            com.put("Room", r.getName());
+            com.put("Name", l.getMAC());
+            IO.sendCommands(com);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void addRoom(Room r)
+    {
+        JSONObject com = new JSONObject();
+        try {
+            com.put("Action", "Add");
+            com.put("Object", "Room");
+            com.put("Name", r.getName());
+            IO.sendCommands(com);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-
+    private void addDash(DashButton d, Light[] l)
+    {
+        JSONObject com = new JSONObject();
+        try {
+            com.put("Action", "Add");
+            com.put("Object", "Dash");
+            com.put("Name", d.getMac());
+            com.put("Lights", l);
+            IO.sendCommands(com);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
