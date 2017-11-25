@@ -1,6 +1,10 @@
 package com.softwaredesign.group5.hokiehome;
 import android.app.Activity;
+import android.app.Service;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
@@ -17,11 +21,11 @@ import java.net.URISyntaxException;
  * Created by Jordan on 11/22/2017.
  */
 
-public class IOManager {
+public class SocketIO {
 
     private Activity mainActivity;
 
-    public IOManager(Activity main)
+    public SocketIO(Activity main)
     {
         mainActivity = main;
     }
@@ -29,7 +33,7 @@ public class IOManager {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://chat.socket.io");
+            mSocket = com.github.nkzawa.socketio.client.IO.socket("http://chat.socket.io");
         } catch (URISyntaxException e) {}
     }
 

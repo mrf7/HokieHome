@@ -1,33 +1,41 @@
 package com.softwaredesign.group5.hokiehome;
 
+import android.content.Intent;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-
+import org.altbeacon.beacon.Beacon;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
-
 public class MainActivity extends AppCompatActivity {
-
     private User currentUser;
     private Room currentRoom;
-    private IOManager IO;
+    private SocketIO IO;
     private BeaconManager b;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        IO = new IOManager(this);
+        IO = new SocketIO(this);
         IO.connect();
+        b = new BeaconManager();
     }
 
+
+    public boolean checkEnter()
+    {
+        Beacon closestB = b.findClosestBeacon();
+        if (closestB != b.getCurrentClosest())
+        {
+            enteredRoom(String.valueOf(closestB.getId1()));
+            return true;
+        }
+        return false;
+    }
 
     private void setLightBrightness(Light l, int brightness)
     {
@@ -45,14 +53,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void enteredRoom(Room r)
+    private void enteredRoom(String name)
     {
         JSONObject com = new JSONObject();
         try {
             com.put("Action", "Enter");
             com.put("Object", "Room");
             com.put("Brightness", currentUser.getPreBrightness());
-            com.put("Name", r.getName());
+            com.put("Name", name);
             IO.sendCommands(com);
         } catch (JSONException e) {
             e.printStackTrace();
