@@ -21,6 +21,6 @@ GPIO.setwarnings(False)
 GPIO.setup(18, GPIO.OUT)
 
 #sys.argv[1] is the ip address of the server, sys.argv[2] is the port number
-socketIO = SocketIO(sys.argv[1], sys.argv[2])
+socketIO = SocketIO(sys.argv[1], int(sys.argv[2]))
 socketIO.on('ON', turnon)
 socketIO.on('OFF', turnoff)
