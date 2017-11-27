@@ -45,6 +45,8 @@ public class BeaconManager{
         return closestBeacon;
     }
 
+
+
     /**
      * adds a new beacon to the list
      * @param name name of beacon

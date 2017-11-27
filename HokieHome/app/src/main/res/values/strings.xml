@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Hokie Home</string>
+    <string name="room_1">Room 1</string>
+    <string name="room_4">Room 4</string>
+    <string name="room_3">Room 3</string>
+    <string name="room_2">Room 2</string>
+    <string name="room_name">Room name</string>
+    <string name="brightness">Brightness</string>
 </resources>
