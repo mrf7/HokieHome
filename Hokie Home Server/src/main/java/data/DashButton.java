@@ -1,4 +1,4 @@
-package main;
+package data;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -13,11 +13,11 @@ public class DashButton
     {
         if(Lights == null)
         {
-            this.lights = new LinkedList<>();
+            this.lights = new LinkedList<Light>();
         }
         else
         {
-            this.lights = new LinkedList<>(Arrays.asList(Lights));
+            this.lights = new LinkedList<Light>(Arrays.asList(Lights));
         }
         macAddress = address;
     }

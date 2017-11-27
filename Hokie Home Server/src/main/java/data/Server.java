@@ -1,4 +1,4 @@
-package main;
+package data;
 
 import java.util.LinkedList;
 
@@ -11,9 +11,9 @@ public class Server
     
     public Server()
     {
-        rooms = new LinkedList<>();
-        buttons= new LinkedList<>();
-        user = new LinkedList<>();
+        rooms = new LinkedList<Room>();
+        buttons= new LinkedList<DashButton>();
+        user = new LinkedList<User>();
     }
     public void onButtonPress(String mac)
     {

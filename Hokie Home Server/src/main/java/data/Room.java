@@ -1,4 +1,4 @@
-package main;
+package data;
 
 import java.util.LinkedList;
 
@@ -11,12 +11,12 @@ public class Room
     public Room()
     {
         name = null; 
-        this.lights = new LinkedList<>();
+        this.lights = new LinkedList<Light>();
     }
     public Room(String nameto)
     {
         name = nameto;
-        this.lights = new LinkedList<>();
+        this.lights = new LinkedList<Light>();
     }
     public String getRoomName()
     {
