@@ -26,7 +26,6 @@ logging.getLogger("socketIO-client").setLevel(logging.DEBUG)
 logging.basicConfig()
 #sys.argv[1] is the ip address of the server, sys.argv[2] is the port number, sys.argv[3] is the room 
 socketIO = SocketIO(sys.argv[1], sys.argv[2], LoggingNamespace)
-socketIO.on('ON', turnon)
-socketIO.on('OFF', turnoff)
+socketIO.on("changeBrightness", changeBrightness)
 socketIO.on("connect", onConnect)
 socketIO.wait()
