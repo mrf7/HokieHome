@@ -4,46 +4,36 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.nkzawa.socketio.client.IO;
-
-import org.altbeacon.beacon.Beacon;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private User currentUser;
-    private Room currentRoom;;
+    private Room currentRoom;
+
+    Intent startManagerServiceIntent;
+
+    boolean isInitalized = false;
+    BeaconApplication app;
+    Manager manage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);//Service Creation Methods
+        app = (BeaconApplication) getApplication();
+        manage = app.getManager();
+        Button b = (Button) findViewById(R.id.button1);
+        b.setOnClickListener(this);
+        manage.assignActivity(this);
     }
 
-    private ManagerService Managerservice;
-    private BeaconManager manager;
-    boolean isBond = false;
 
-    private ServiceConnection musicServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            ManagerService.MyBinder binder = (ManagerService.MyBinder) service;
-            Managerservice = binder.getService();
-            Managerservice.setManager(manager);
-            isBond = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            manager = null;
-            isBond = false;
-        }
-    };
+    @Override
+    public void onClick(View v) {
+        manage.enteredRoom("living Room");
+    }
 }

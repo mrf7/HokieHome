@@ -9,6 +9,12 @@ class User {
     private String Password;
     private int preBrightness;
 
+    public User(String name, String pass, int i) {
+        Username = name;
+        Password = pass;
+        preBrightness = i;
+    }
+
     public void setUsername(String username) {
         Username = username;
     }
