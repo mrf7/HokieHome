@@ -1,14 +1,14 @@
 package com.softwaredesign.group5.hokiehome;
 
 import android.app.Activity;
+import android.app.Application;
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-
-import com.github.nkzawa.socketio.client.IO;
+import android.util.Log;
 
 import org.altbeacon.beacon.Beacon;
 import org.json.JSONException;
@@ -17,49 +17,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Jordan on 11/25/2017.
- * Service that will run in the background to control the beacons and server communication
+ * Created by Jordan on 11/23/2017.
  */
 
-public class ManagerService extends Service {
+public class Manager {
 
-    private User currentUser;
-    private Room currentRoom;
-    private SocketIO IO;
+    private final User currentUser;
+    private ArrayList<Beacon> beacons = new ArrayList<>();
+    private Beacon currentClosest = null;
+    private SocketIO IO = new SocketIO();
 
-    private final IBinder iBinder = new MyBinder();
-    BeaconManager manager;
-    private PositionAsyncTask spinAsyncTask;
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return iBinder;
+    public Manager (User u)
+    {
+        currentUser = u;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        spinAsyncTask = new PositionAsyncTask();
-        spinAsyncTask.execute();
-    }
-
-    public void setManager(BeaconManager manager) {
-        this.manager = manager;
-    }
-
-    public void createIO(Activity m) {
-        IO = new SocketIO(m);
-        IO.connect();
-    }
-
-    public boolean checkEnter() {
-        Beacon closestB = manager.findClosestBeacon();
-        if (closestB != manager.getCurrentClosest()) {
-            enteredRoom(String.valueOf(closestB.getId1()));
-            return true;
-        }
-        return false;
+    public Beacon getCurrentClosest() {
+        return currentClosest;
     }
 
     /**
@@ -83,15 +57,6 @@ public class ManagerService extends Service {
 
     }
 
-    @Override
-    public void onDestroy() {
-        if (spinAsyncTask != null && spinAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
-            spinAsyncTask.cancel(true);
-            spinAsyncTask = null;
-        }
-        super.onDestroy();
-    }
-
     /**
      * method used to send a JSON method to the server when entering a new room
      *
@@ -107,6 +72,8 @@ public class ManagerService extends Service {
             IO.sendCommands(com);
         } catch (JSONException e) {
             e.printStackTrace();
+
+            Log.d("Debug", "Crash");
         }
     }
 
@@ -185,28 +152,9 @@ public class ManagerService extends Service {
         }
     }
 
-
-    public class MyBinder extends Binder {
-        ManagerService getService() {
-            return ManagerService.this;
-        }
+    public void assignActivity (Activity a)
+    {
+        IO.assignActivity(a);
     }
 
-
-    private class PositionAsyncTask extends AsyncTask<Integer, Integer, Void> {
-        @Override
-        protected Void doInBackground(Integer... params) {
-            int interval = 1000;
-            while (!isCancelled()) {
-                checkEnter();
-                try {
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return null;
-        }
-    }
 }
