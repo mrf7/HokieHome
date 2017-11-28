@@ -1,50 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.softwaredesign.group5.hokiehome.MainActivity">
 
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="400dp"
+        android:layout_height="250dp" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.softwaredesign.group5.hokiehome.RoomInformation"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="24dp"
-        android:textAllCaps="false"
-        android:text="@string/room_1" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/button1"
-        android:layout_marginEnd="49dp"
-        android:textAllCaps="false"
-        android:text="@string/room_2" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="61dp"
-        android:textAllCaps="false"
-        android:text="@string/room_3" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignEnd="@+id/button2"
-        android:textAllCaps="false"
-        android:text="@string/room_4" />
+        tools:layout="@layout/room_info"/>
 
 </RelativeLayout>

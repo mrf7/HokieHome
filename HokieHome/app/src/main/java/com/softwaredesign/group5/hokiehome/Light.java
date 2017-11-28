@@ -8,7 +8,9 @@ public class Light {
     String MAC;
     int currentBrightness;
 
-
+    public Light(String mac){
+        this.MAC=mac;
+    }
     public String getMAC() {
         return MAC;
     }
