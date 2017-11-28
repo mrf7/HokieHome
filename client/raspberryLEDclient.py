@@ -13,7 +13,7 @@ def changeBrightness(brightness):
 	print("LED set to: ", brightness)	
     
 def onConnect(): 
-    socketIO.emit("roomIdent", sys.argv[3])
+	socketIO.emit("roomIdent", sys.argv[3])
 	print('connected')
 # Set up GPIO pins 
 GPIO.setmode(GPIO.BCM)
