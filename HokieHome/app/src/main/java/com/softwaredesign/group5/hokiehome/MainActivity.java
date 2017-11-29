@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -16,10 +17,13 @@ public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private Room currentRoom;
     ArrayList<Room> rooms;
+    private Button addButton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addButton=(Button)findViewById(R.id.button) ;
+        addButton.setOnClickListener(buttonListener);
         ArrayList<Light> lights=new ArrayList<Light>();
         lights.add(new Light("1"));
         lights.add(new Light("2"));
@@ -44,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
            }
        }
        );
-
     }
+    public Button.OnClickListener buttonListener=new Button.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+
+        }
+    };
 }

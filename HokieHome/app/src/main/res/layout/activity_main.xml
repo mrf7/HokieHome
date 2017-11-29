@@ -4,15 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.softwaredesign.group5.hokiehome.MainActivity">
-
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="25dp" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -22,6 +13,16 @@
         android:layout_marginTop="19dp"
         android:text="@string/add_light"
         android:textAllCaps="false" />
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="21dp" />
+
+
 
 
 </RelativeLayout>
