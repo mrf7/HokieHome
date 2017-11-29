@@ -4,13 +4,14 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private Room currentRoom;
 
@@ -24,14 +25,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);//Service Creation Methods
-        app = (BeaconApplication) getApplication();
-        manage = app.getManager();
-        Button b = (Button) findViewById(R.id.button1);
-        b.setOnClickListener(this);
-        manage.assignActivity(this);
     }
 
-    public void onClick(View v) {
-        manage.enteredRoom("living Room");
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        app = (BeaconApplication) getApplication();
+            app.unbind();
     }
 }

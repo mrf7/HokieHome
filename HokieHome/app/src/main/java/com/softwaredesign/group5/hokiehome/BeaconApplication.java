@@ -27,6 +27,7 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
     private BeaconManager beaconManager;
     private Manager m;
     private Beacon currentClosest = null;
+    private Region region;
 
 
     public void onCreate() {
@@ -34,6 +35,7 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
         beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
         beaconManager.setBackgroundBetweenScanPeriod(5000l);
         beaconManager.setForegroundBetweenScanPeriod(2000l);
+
         beaconManager.bind(this);
 
         // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
@@ -49,7 +51,7 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
 
         Log.d(TAG, "setting up background monitoring for beacons and power saving");
         // wake up the app when a beacon is seen
-        Region region = new Region("backgroundRegion",
+        region = new Region("backgroundRegion",
                 null, null, null);
 
         regionBootstrap = new RegionBootstrap(this, region);
@@ -68,24 +70,15 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
 
 
 
+
     @Override
     public void didEnterRegion(Region arg0) {
         Log.d(TAG, "did enter region.");
-        try {
-            beaconManager.startRangingBeaconsInRegion(arg0);
-        }
-        catch (RemoteException e) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Can't start ranging");
-        }
     }
+
 
     @Override
     public void didExitRegion(Region region) {
-        try {
-            beaconManager.stopRangingBeaconsInRegion(region);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -121,9 +114,20 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
     @Override
     public void onBeaconServiceConnect() {
         beaconManager.addRangeNotifier(this);
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("Name", null,null,null));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Manager getManager() {
         return m;
+    }
+
+    public void unbind() {
+        beaconManager.unbind(this);
     }
 }
