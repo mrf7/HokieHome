@@ -60,8 +60,8 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
         backgroundPowerSaver = new BackgroundPowerSaver(this);
 
         // If you wish to test beacon detection in the Android Emulator, you can use code like this:
-        // BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
-        // ((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
+        BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
+        ((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
         User u = new User("Jordan", "Pass", 25);
         m = new Manager(u);
     }
@@ -99,7 +99,7 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
         Log.d(TAG,"Scanned");
         if (beacons.size() > 0) {
             Double distance = Double.MAX_VALUE;
-            Beacon closestBeacon = null;
+            Beacon closestBeacon = currentClosest;
             for (Beacon b : beacons) {
                 Double dis = b.getDistance();
                 if (dis < distance) ;
@@ -108,9 +108,11 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
                     distance = dis;
                 }
             }
-            if (closestBeacon.getBluetoothAddress() != currentClosest.getBluetoothAddress())
+            if (currentClosest == null || !closestBeacon.getBluetoothName().equals(currentClosest.getBluetoothName()))
             {
-                m.enteredRoom(String.valueOf(closestBeacon.getId1()));
+                Log.d(TAG,closestBeacon.getDistance() + closestBeacon.getBluetoothName());
+                m.enteredRoom(closestBeacon.getBluetoothName());
+                currentClosest = closestBeacon;
             }
         }
 
@@ -118,7 +120,7 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
 
     @Override
     public void onBeaconServiceConnect() {
-        beaconManager.setRangeNotifier(this);
+        beaconManager.addRangeNotifier(this);
     }
 
     public Manager getManager() {

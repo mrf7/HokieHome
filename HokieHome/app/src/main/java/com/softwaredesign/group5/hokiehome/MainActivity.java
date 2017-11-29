@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         manage.assignActivity(this);
     }
 
-
-    @Override
     public void onClick(View v) {
         manage.enteredRoom("living Room");
     }

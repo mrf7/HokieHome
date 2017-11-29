@@ -73,7 +73,7 @@ public class Manager {
         } catch (JSONException e) {
             e.printStackTrace();
 
-            Log.d("Debug", "Crash");
+            Log.d("BeaconReferenceApp", "Crash");
         }
     }
 
