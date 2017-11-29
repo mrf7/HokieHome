@@ -17,7 +17,7 @@ import com.github.nkzawa.socketio.client.Manager;
 import java.util.ArrayList;
 
 
-public class RoomInformation extends Activity{
+public class LighManualtController extends Activity{
     ArrayList<Light> l;
     private LinearLayout layout;
    public void onCreate(Bundle savedInstanceState){

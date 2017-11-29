@@ -2,4 +2,5 @@
     <string name="app_name">Hokie Home</string>
     <string name="room_name">Room name</string>
     <string name="brightness">Brightness</string>
+    <string name="add_light">Add light</string>
 </resources>

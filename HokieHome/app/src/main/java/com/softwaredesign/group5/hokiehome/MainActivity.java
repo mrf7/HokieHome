@@ -1,21 +1,13 @@
 package com.softwaredesign.group5.hokiehome;
 
-import android.annotation.SuppressLint;
-import android.app.Fragment;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SeekBar;
 
 import java.util.ArrayList;
 
@@ -45,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         roomView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
            @Override
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-              Intent myIntent=new Intent(MainActivity.this,RoomInformation.class);
+              Intent myIntent=new Intent(MainActivity.this,LighManualtController.class);
               startActivity(myIntent);
               BeaconApplication app= (BeaconApplication) getApplication();
               app.setCurrentLights(rooms.get(i).getLights());
