@@ -25,11 +25,12 @@ public class Manager {
     private final User currentUser;
     private ArrayList<Beacon> beacons = new ArrayList<>();
     private Beacon currentClosest = null;
-    private SocketIO IO = new SocketIO();
+    private SocketIO socket = new SocketIO();
 
     public Manager (User u)
     {
         currentUser = u;
+        socket.connect();
     }
 
     public Beacon getCurrentClosest() {
@@ -49,7 +50,7 @@ public class Manager {
             com.put("Object", "Light");
             com.put("Brightness", brightness);
             com.put("Name", l.getMAC());
-            IO.sendCommands(com);
+            socket.sendCommands(com);
             l.setCurrentBrightness(brightness);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -69,11 +70,11 @@ public class Manager {
             com.put("Object", "Room");
             com.put("Brightness", currentUser.getPreBrightness());
             com.put("Name", name);
-            IO.sendCommands(com);
+            socket.sendCommands(com);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            Log.d("Debug", "Crash");
+            Log.d("BeaconReferenceApp", "Crash");
         }
     }
 
@@ -91,7 +92,7 @@ public class Manager {
             com.put("Room", r.getName());
             com.put("Name", l.getMAC());
             r.addLight(l);
-            IO.createObject(com);
+            socket.createObject(com);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -110,7 +111,7 @@ public class Manager {
             com.put("Name", u.getUsername());
             com.put("Pass", u.getPassword());
             com.put("PreBright", u.getPreBrightness());
-            IO.createObject(com);
+            socket.createObject(com);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -127,7 +128,7 @@ public class Manager {
             com.put("Action", "Add");
             com.put("Object", "Room");
             com.put("Name", r.getName());
-            IO.createObject(com);
+            socket.createObject(com);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -146,7 +147,7 @@ public class Manager {
             com.put("Object", "Dash");
             com.put("Name", d.getMac());
             com.put("Lights", l);
-            IO.createObject(com);
+            socket.createObject(com);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -154,7 +155,7 @@ public class Manager {
 
     public void assignActivity (Activity a)
     {
-        IO.assignActivity(a);
+        socket.assignActivity(a);
     }
 
 }

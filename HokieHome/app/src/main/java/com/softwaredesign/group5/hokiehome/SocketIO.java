@@ -34,8 +34,14 @@ public class SocketIO {
     private Socket mSocket;
     {
         try {
-            mSocket = com.github.nkzawa.socketio.client.IO.socket("http://chat.socket.io");
-        } catch (URISyntaxException e) {}
+            mSocket = IO.socket("http://10.0.0.106:9092");
+
+            Log.d("BeaconReferenceApp", "Success");
+
+        } catch (URISyntaxException e) {
+
+            Log.d("BeaconReferenceApp","Failure");
+        }
     }
 
     public void assignActivity (Activity a)
@@ -48,6 +54,7 @@ public class SocketIO {
     {
         mSocket.connect();
     }
+
 
     /**
      * method used to send a create Object message
@@ -70,10 +77,26 @@ public class SocketIO {
      * @param message
      */
     public void sendCommands(JSONObject message) throws JSONException {
-        mSocket.emit("Command", message);
-        Log.d("Debug", String.valueOf(message.get("Name")));
+        mSocket.emit("Command", message.toString());
+        Log.d("BeaconReferenceApp", String.valueOf(message.get("Name")));
     }
 
+    /**
+     * listens to server callbacks
+     */
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+
+        @Override
+        public void call(final Object... args) {
+            new Runnable() {
+                @Override
+                public void run() {
+
+                    Log.d("BeaconReferenceApp", "Connected");
+                }
+            };
+        }
+    };
 
     /**
      * listens to server callbacks
