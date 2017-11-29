@@ -1,6 +1,7 @@
 package com.softwaredesign.group5.hokiehome;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -16,53 +17,37 @@ import com.github.nkzawa.socketio.client.Manager;
 import java.util.ArrayList;
 
 
-public class RoomInformation extends Fragment{
-    View view;
+public class RoomInformation extends Activity{
     ArrayList<Light> l;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                    Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.room_info, container, false);
-        return view;
-    }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    private LinearLayout layout;
+   public void onCreate(Bundle savedInstanceState){
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.room_info);
+       layout= (LinearLayout)findViewById(R.id.lists);
+       BeaconApplication app=(BeaconApplication) getApplication();
+       l=app.getCurrentLights();
+       display(l);
+   }
 
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    /**
-     * Set the lights that belong to this room and then display
-     * @param lights the lights belonging to this room
-     */
-    public void setRoomLight(ArrayList<Light> lights){
-        l=lights;
-        display(l);
-    }
 
     /**
      * Private method to display scroll bars for each light and users can adjust the brightness by moving the ball
      * @param lights the lights belonging to this room
      */
     private void display(ArrayList<Light> lights){
-        LinearLayout layout= (LinearLayout) view.findViewById(R.id.lists);
         layout.removeAllViews();
-        TextView text= new TextView(getActivity());
+        TextView text= new TextView(this);
         text.setText("   Move the scrollbars to adjust the brightness of each light");
         layout.addView(text);
         if(lights!=null){
         for(int i=0;i<lights.size();i++){
-            SeekBar  bar=new SeekBar(getActivity());
+            SeekBar  bar=new SeekBar(this);
             bar.setId(i);
-            System.out.println("id   "+bar.getId());
-             layout.addView(bar);
-             bar.setOnSeekBarChangeListener(barListner);
-        }}
+            layout.addView(bar);
+            bar.setOnSeekBarChangeListener(barListner);
+        }}else{
+            text.setText(" Sorry\n There is no light you can control");
+        }
     }
 
     /**

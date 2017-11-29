@@ -13,6 +13,7 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -27,7 +28,7 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
     private BeaconManager beaconManager;
     private Manager m;
     private Beacon currentClosest = null;
-
+    private ArrayList<Light> currentLights;
 
     public void onCreate() {
         super.onCreate();
@@ -125,5 +126,12 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
 
     public Manager getManager() {
         return m;
+    }
+
+    public void setCurrentLights(ArrayList<Light> light){
+        this.currentLights=light;
+    }
+    public ArrayList<Light> getCurrentLights(){
+        return this.currentLights;
     }
 }

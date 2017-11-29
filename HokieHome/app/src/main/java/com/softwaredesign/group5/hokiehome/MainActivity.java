@@ -45,15 +45,10 @@ public class MainActivity extends AppCompatActivity {
         roomView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
            @Override
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               RoomInformation frag= (RoomInformation) getFragmentManager().findFragmentById(R.id.fragment);
-               switch (i){
-                   case 0:
-                        frag.setRoomLight(rooms.get(0).getLights());
-                       break;
-                   case 1:
-                       frag.setRoomLight(rooms.get(1).getLights());break;
-                   case 2: frag.setRoomLight(rooms.get(2).getLights());break;
-               }
+              Intent myIntent=new Intent(MainActivity.this,RoomInformation.class);
+              startActivity(myIntent);
+              BeaconApplication app= (BeaconApplication) getApplication();
+              app.setCurrentLights(rooms.get(i).getLights());
            }
        }
        );
