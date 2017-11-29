@@ -1,8 +1,11 @@
 package com.softwaredesign.group5.hokiehome;
 
 
-import android.app.Activity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -10,21 +13,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class LighManualtController extends Activity{
+public class LighManualtController extends AppCompatActivity {
 
     ArrayList<Light> l;
     private LinearLayout layout;
     private BeaconApplication app;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState){
        super.onCreate(savedInstanceState);
-       setContentView(R.layout.room);
+       setContentView(R.layout.room_lights);
        layout= (LinearLayout)findViewById(R.id.lists);
        app=(BeaconApplication) getApplication();
        l=app.getCurrentLights();
        display(l);
+
     }
 
 
