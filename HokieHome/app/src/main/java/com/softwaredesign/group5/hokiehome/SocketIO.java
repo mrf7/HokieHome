@@ -71,7 +71,7 @@ public class SocketIO {
      */
     public void sendCommands(JSONObject message) throws JSONException {
         mSocket.emit("Command", message);
-        Log.d("Debug", String.valueOf(message.get("Name")));
+        Log.d("BeaconReferenceApp", String.valueOf(message.get("Name")));
     }
 
 
