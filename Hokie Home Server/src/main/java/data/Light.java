@@ -1,44 +1,46 @@
 package data;
 
-public class Light
-{
-    private String ipAddress;
-    private boolean isOn;
-    
-    
-    public Light(String ip)
-    {
-        ipAddress = ip;
-        isOn = false;
-    }
-    public boolean isOn()
-    {
-        return isOn;
-    }
-    public void turnOn()
-    {
-        
-    }
-    public void turnOff()
-    {
-        
-    }
-    public String getIpaddress()
-    {
-        return ipAddress;
-    }
-    public boolean equals(Object o)
-    {
-        if(o == null)
-        {
-            return false;
-        }
-        if(o.getClass() == this.getClass())
-        {
-            Light comp = (Light)o;
-            return this.ipAddress.equals(comp.getIpaddress());
-        }
-        return false;
-    }
-    
+import controllers.LightController;
+
+public class Light {
+	private int id;
+	private int brightness;
+	private static LightController controller = LightController.getInstance();
+	//Create a new Light with given fields
+	public Light(int id) {
+		this.id = id;
+		brightness = 0;
+	}
+	//Sets the brightness of the light using the light controller
+	public void setBrightness(int bright) {
+		controller.setBrightness(this, bright);
+		brightness = bright;
+	}
+	//Turns brightness to max 
+	public void turnOn() {
+		setBrightness(100);
+	}
+	//Turns light off
+	public void turnOff() {
+		setBrightness(0);
+	}
+	//Getters
+	public int getBrightness() {
+		return brightness;
+	}
+	public int getId() {
+		return id;
+	}
+
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+		if (o.getClass() == this.getClass()) {
+			Light comp = (Light) o;
+			return this.id == comp.getId();
+		}
+		return false;
+	}
+
 }

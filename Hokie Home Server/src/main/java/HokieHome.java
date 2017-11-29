@@ -1,6 +1,3 @@
-package socketIO;
-import examples.ChatObject;
-
 import java.util.HashMap;
 
 //Import dependencies from maven

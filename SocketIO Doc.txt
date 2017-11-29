@@ -1,6 +1,26 @@
 Socket IO Syntax:
 
-Currently 2 Emittable Events:
+Events: 
+
+Light-Server Communication Events: 
+    "changeBrightness" Server->Light 
+        changes brightness of light
+        data: int  
+    "lightIdent" Light->Server
+        Sent by light on connection, identifies the light with id, room
+        If light hasn't been set up, room will be !NOROOM
+        data: json object
+        ex format: {"id": 1
+                    "room": "Living Room"}
+    "setRoom" server-> Light
+        Sets up a light by telling it to remember a room
+        Set up lights will replace their current room with the new room
+        data: String
+    "reset": Server->Light
+        Tells the light to forget its room
+        data: none
+    
+
 
 "Create" for creating objects
 		Json format:
