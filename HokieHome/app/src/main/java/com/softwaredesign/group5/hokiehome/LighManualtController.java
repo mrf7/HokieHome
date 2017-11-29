@@ -20,7 +20,7 @@ public class LighManualtController extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState){
        super.onCreate(savedInstanceState);
-       setContentView(R.layout.room_info);
+       setContentView(R.layout.room);
        layout= (LinearLayout)findViewById(R.id.lists);
        app=(BeaconApplication) getApplication();
        l=app.getCurrentLights();
@@ -38,12 +38,15 @@ public class LighManualtController extends Activity{
         text.setText("   Move the scrollbars to adjust the brightness of each light");
         layout.addView(text);
         if(lights!=null){
-        for(int i=0;i<lights.size();i++){
-            SeekBar  bar=new SeekBar(this);
-            bar.setId(i);
-            layout.addView(bar);
-            bar.setOnSeekBarChangeListener(barListener);
-        }}else{
+            if (lights.size()==0) {text.setText(" Sorry\n There is no light you can control");}else{
+                for(int i=0;i<lights.size();i++){
+                SeekBar  bar=new SeekBar(this);
+                bar.setId(i);
+                layout.addView(bar);
+                bar.setOnSeekBarChangeListener(barListener);
+                }
+        }
+        }else{
             text.setText(" Sorry\n There is no light you can control");
         }
     }
