@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LighManualtController" />
+        <activity android:name=".AddLightController" />
     </application>
 
 </manifest>

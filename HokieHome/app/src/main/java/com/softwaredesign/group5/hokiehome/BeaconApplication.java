@@ -29,7 +29,8 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
     private Manager m;
     private Beacon currentClosest = null;
     private ArrayList<Light> currentLights;
-
+    private ArrayList<Light> newLights;
+    private ArrayList<Room> rooms;
     public void onCreate() {
         super.onCreate();
         beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
@@ -37,6 +38,20 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
         beaconManager.setForegroundBetweenScanPeriod(2000l);
         beaconManager.bind(this);
 
+        newLights=new ArrayList<Light>();
+        newLights.add(new Light("10"));
+        newLights.add(new Light("20"));
+        ArrayList<Light> lights=new ArrayList<Light>();
+        lights.add(new Light("1"));
+        lights.add(new Light("2"));
+        lights.add(new Light("3"));
+        rooms=new ArrayList<Room>();
+        rooms.add(new Room("room 1",lights,null));
+        ArrayList<Light> lights2=new ArrayList<Light>();
+        lights2.add(new Light("4"));
+        rooms.add(new Room("room 2",lights2,null));
+        ArrayList<Light> lights3=new ArrayList<Light>();
+        rooms.add(new Room("room 3",lights3,null));
         // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
         // find a different type of beacon, you must specify the byte layout for that beacon's
         // advertisement with a line like below.  The example shows how to find a beacon with the
@@ -133,5 +148,13 @@ public class BeaconApplication extends Application implements BootstrapNotifier,
     }
     public ArrayList<Light> getCurrentLights(){
         return this.currentLights;
+    }
+    public void setNewLights(ArrayList<Light>lights){this.newLights=lights;}
+    public ArrayList<Light> getNewLights(){
+        return this.newLights;
+    }
+    public void setRooms(ArrayList<Room> rooms){this.rooms=rooms;}
+    public ArrayList<Room> getRooms(){
+        return this.rooms;
     }
 }

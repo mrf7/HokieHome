@@ -4,8 +4,6 @@ package com.softwaredesign.group5.hokiehome;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -38,19 +36,21 @@ public class LighManualtController extends AppCompatActivity {
     private void display(ArrayList<Light> lights){
         layout.removeAllViews();
         TextView text= new TextView(this);
-        text.setText("   Move the scrollbars to adjust the brightness of each light");
+        text.setText("     Move the scrollbars to adjust\n    the brightness of each light!");
+        text.setTextSize(20);
         layout.addView(text);
         if(lights!=null){
-            if (lights.size()==0) {text.setText(" Sorry\n There is no light you can control");}else{
+            if (lights.size()==0) {text.setText(" Sorry.\n There is no light you can control!");}else{
                 for(int i=0;i<lights.size();i++){
                 SeekBar  bar=new SeekBar(this);
                 bar.setId(i);
+                bar.setScrollBarSize(100);
                 layout.addView(bar);
                 bar.setOnSeekBarChangeListener(barListener);
                 }
         }
         }else{
-            text.setText(" Sorry\n There is no light you can control");
+            text.setText(" Sorry.\n There is no light you can control!");
         }
     }
 
