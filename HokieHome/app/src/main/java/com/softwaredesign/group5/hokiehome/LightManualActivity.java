@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class LighManualtController extends AppCompatActivity {
+public class LightManualActivity extends AppCompatActivity {
 
     ArrayList<Light> l;
     private LinearLayout layout;
@@ -45,6 +45,7 @@ public class LighManualtController extends AppCompatActivity {
                 SeekBar  bar=new SeekBar(this);
                 bar.setId(i);
                 bar.setScrollBarSize(100);
+                bar.setPadding(30,20,30,20);
                 layout.addView(bar);
                 bar.setOnSeekBarChangeListener(barListener);
                 }
@@ -70,9 +71,9 @@ public class LighManualtController extends AppCompatActivity {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).currentBrightness+"  before");
+            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness()+"  before");
             app.getManager().setLightBrightness(l.get(seekBar.getId()),seekBar.getProgress());
-            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).currentBrightness);
+            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness());
             
         }
     };

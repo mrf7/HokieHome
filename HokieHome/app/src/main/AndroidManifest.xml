@@ -18,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LighManualtController" />
-        <activity android:name=".AddLightController" />
+        <activity android:name=".LightManualActivity" />
+        <activity android:name=".AddLightActivity" />
     </application>
 
 </manifest>

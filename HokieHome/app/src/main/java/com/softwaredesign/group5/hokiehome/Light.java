@@ -6,7 +6,7 @@ package com.softwaredesign.group5.hokiehome;
 
 public class Light {
     String MAC;
-    int currentBrightness;
+    private int currentBrightness;
 
     public Light(String mac){
         this.MAC=mac;

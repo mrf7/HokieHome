@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
            @Override
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                app.setCurrentLights(rooms.get(i).getLights());
-              Intent myIntent=new Intent(MainActivity.this,LighManualtController.class);
+              Intent myIntent=new Intent(MainActivity.this,LightManualActivity.class);
               startActivity(myIntent);
 
            }
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public Button.OnClickListener buttonListener=new Button.OnClickListener(){
         @Override
         public void onClick(View view) {
-            Intent myIntent=new Intent(MainActivity.this,AddLightController.class);
+            Intent myIntent=new Intent(MainActivity.this,AddLightActivity.class);
             startActivity(myIntent);
         }
     };
