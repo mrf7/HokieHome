@@ -2,32 +2,30 @@ package com.softwaredesign.group5.hokiehome;
 
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.github.nkzawa.socketio.client.Manager;
 
 import java.util.ArrayList;
 
 
 public class LighManualtController extends Activity{
+
     ArrayList<Light> l;
     private LinearLayout layout;
-   public void onCreate(Bundle savedInstanceState){
+    private BeaconApplication app;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
        super.onCreate(savedInstanceState);
        setContentView(R.layout.room_info);
        layout= (LinearLayout)findViewById(R.id.lists);
-       BeaconApplication app=(BeaconApplication) getApplication();
+       app=(BeaconApplication) getApplication();
        l=app.getCurrentLights();
        display(l);
-   }
+    }
 
 
     /**
@@ -44,16 +42,16 @@ public class LighManualtController extends Activity{
             SeekBar  bar=new SeekBar(this);
             bar.setId(i);
             layout.addView(bar);
-            bar.setOnSeekBarChangeListener(barListner);
+            bar.setOnSeekBarChangeListener(barListener);
         }}else{
             text.setText(" Sorry\n There is no light you can control");
         }
     }
 
     /**
-     * private seekbar listener to handle brightness adjustment
+     * private SeekBar listener to handle brightness adjustment
      */
-    public SeekBar.OnSeekBarChangeListener barListner=new SeekBar.OnSeekBarChangeListener() {
+    public SeekBar.OnSeekBarChangeListener barListener =new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b){
 
@@ -66,7 +64,8 @@ public class LighManualtController extends Activity{
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            l.get((int)seekBar.getId()).setCurrentBrightness(seekBar.getProgress());
+            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).currentBrightness+"  before");
+            app.getManager().setLightBrightness(l.get(seekBar.getId()),seekBar.getProgress());
             System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).currentBrightness);
             
         }
