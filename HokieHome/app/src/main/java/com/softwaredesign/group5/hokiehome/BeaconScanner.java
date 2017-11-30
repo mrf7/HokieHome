@@ -74,9 +74,6 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
         //The TAG "BeaconReferenceApp" can be used in Logcat to filter the results.
         BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
         ((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
-
-
-
     }
 
 
@@ -114,6 +111,8 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
             }
             if (currentClosest == null || !closestBeacon.getBluetoothName().equals(currentClosest.getBluetoothName())) {
                 currentClosest = closestBeacon;
+                Log.d(TAG,currentClosest.getBluetoothName());
+                m.enteredRoom(currentClosest.getBluetoothName());
             }
         }
 

@@ -1,7 +1,11 @@
 package socketIO;
 
+import java.io.InputStream;
+
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
+
+import examples.SslChatLauncher;
 //This class handles socket IO communication. It is a singleton class 
 public class SocketManager {
 	private static SocketIOServer server;
@@ -10,7 +14,10 @@ public class SocketManager {
 	private SocketManager() {
 		//Set up the configuration for the server
 		Configuration config = new Configuration();
-	    config.setPort(9092);
+	    config.setPort(10443);
+	    config.setKeyStorePassword("sup3rsecurepasswerd@NOHAXORS");
+        InputStream stream = SslChatLauncher.class.getResourceAsStream("/keystore.jks");
+        config.setKeyStore(stream);
 	    //Begin the socketio server
 	    server = new SocketIOServer(config);
 	    //Start the server asynchronously

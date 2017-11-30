@@ -13,12 +13,10 @@ class Room {
     private ArrayList<Light> lights;
     private Beacon b;
 
-    public Room(String n, ArrayList<Light> l, Beacon beacon)
+    public Room(String n)
     {
         name = n;
-        lights = l;
-        b = beacon;
-
+        lights = new ArrayList<>();
     }
 
     public String getName() {

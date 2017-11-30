@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(buttonListener);
         app= (BeaconApplication) getApplication();
         setContentView(R.layout.activity_main);//Service Creation Methods
+        app = (BeaconApplication) getApplication();
+        app.getManager().checkForRooms(this);
     }
 
     @Override
