@@ -9,7 +9,7 @@
  <inceptionYear>2012</inceptionYear>
 
  <properties>
-     <main.class>socketIO.HokieHome</main.class>
+     <main.class>HokieHome</main.class>
      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  </properties>
 
@@ -20,18 +20,6 @@
          <distribution>manual</distribution>
      </license>
  </licenses>
-
- <developers>
-     <developer>
-         <id>mrniko</id>
-         <name>Nikita Koksharov</name>
-         <roles>
-             <role>Architect</role>
-             <role>Developer</role>
-         </roles>
-         <timezone>+4</timezone>
-     </developer>
- </developers>
 
  <dependencies>
   <dependency>

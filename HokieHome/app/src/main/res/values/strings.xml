@@ -8,4 +8,5 @@
     <string name="on">ON</string>
     <string name="button">Button</string>
     <string name="add">Add</string>
+    <string name="IP_Port">http://10.0.0.106:9092</string>
 </resources>

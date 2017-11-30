@@ -49,5 +49,9 @@ public class Room
         }
     }
 
+    @Override
+    public String toString() {
+    	return name + " has lights: " +lights;
+    }
     
 }

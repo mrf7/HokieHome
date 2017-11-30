@@ -1,8 +1,13 @@
 package com.softwaredesign.group5.hokiehome;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private Room currentRoom;
     private  BeaconApplication app;
-    ArrayList<Room> rooms;
     private Button addButton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,8 +30,19 @@ public class MainActivity extends AppCompatActivity {
         addButton=(Button)findViewById(R.id.button) ;
         addButton.setOnClickListener(buttonListener);
         app= (BeaconApplication) getApplication();
-        rooms=app.getRooms();
+        setContentView(R.layout.activity_main);//Service Creation Methods
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        app.getManager().checkForRooms(this);
+    }
+
+    public void passRooms (final ArrayList<Room> rooms)
+    {
         ArrayList<String> listItem= new ArrayList<String>();
+        app.setRooms(rooms);
         if(rooms!=null&&rooms.size()!=0){
             for(Room temp:rooms){
                 listItem.add(temp.getName());
@@ -37,15 +52,21 @@ public class MainActivity extends AppCompatActivity {
         ListView roomView =(ListView)findViewById(R.id.list_view);
         roomView.setAdapter(adapter);
         roomView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-           @Override
-           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               app.setCurrentLights(rooms.get(i).getLights());
-              Intent myIntent=new Intent(MainActivity.this,LightManualActivity.class);
-              startActivity(myIntent);
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                app.setCurrentLights(rooms.get(i).getLights());
+                Intent myIntent=new Intent(MainActivity.this,LightManualActivity.class);
+                startActivity(myIntent);
+             }}
+        );
 
-           }
-       }
-       );
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        app = (BeaconApplication) getApplication();
+            app.getB().unbind();
     }
     public Button.OnClickListener buttonListener=new Button.OnClickListener(){
         @Override
