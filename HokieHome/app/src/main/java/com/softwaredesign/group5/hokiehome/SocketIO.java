@@ -56,20 +56,29 @@ public class SocketIO {
         return mSocket;
     }
 
-    public void assignActivity (Activity a)
+    public void checkForRoom (Activity a)
     {
         mainActivity = a;
-        mSocket.on("Server callback", checkForRoom);
+        mSocket.emit("getRooms");
+        mSocket.on("Room", checkForRoom);
+        mSocket.off("Lights");
     }
 
     public void checkforLights(Activity a)
     {
-        mSocket.on("Lights", a);
+        mainActivity = a;
+        mSocket.emit("getNewLights");
+        mSocket.on("Lights", checkForLights);
+        mSocket.off("Room");
     }
 
     public void connect()
     {
         mSocket.connect();
+        sendUserInfo();
+    }
+
+    private void sendUserInfo() {
     }
 
 
@@ -77,8 +86,8 @@ public class SocketIO {
      * method used to send a create Object message
      * @param message
      */
-    public void createObject(JSONObject message) {
-        mSocket.emit("Create", message);
+    public void addLight(JSONObject message) {
+        mSocket.emit("addLight", message);
         lastCommand = message;
     }
 
@@ -86,8 +95,8 @@ public class SocketIO {
      * method used to send an account changes message
      * @param message
      */
-    public void sendAccountChanges(JSONObject message) {
-        mSocket.emit("Changes", message);
+    public void setBrightness(JSONObject message) {
+        mSocket.emit("setBrightness", message);
         lastCommand = message;
     }
 
@@ -95,8 +104,8 @@ public class SocketIO {
      * method used to send a command message
      * @param message
      */
-    public void sendCommands(JSONObject message) throws JSONException {
-        mSocket.emit("Command", message.toString());
+    public void enteredRoom(JSONObject message) throws JSONException {
+        mSocket.emit("enteredRoom", message.toString());
         Log.d("BeaconReferenceApp", String.valueOf(message.get("Name")));
         lastCommand = message;
     }
