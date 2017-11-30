@@ -15,7 +15,7 @@ def changeBrightness(brightness):
 def onConnect(): 
 	lightIdentifier = {"id": int(sys.argv[2]),
 						"room": sys.argv[3]}
-	socketIO.emit("lightIdent", lightIdentifier)
+	socketIO.emit("lightIdent", str(lightIdentifier))
 	print('connected')
 # Set up GPIO pins 
 GPIO.setmode(GPIO.BCM)
