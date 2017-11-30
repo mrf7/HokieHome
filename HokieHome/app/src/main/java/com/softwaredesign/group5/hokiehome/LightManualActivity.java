@@ -43,9 +43,14 @@ public class LightManualActivity extends AppCompatActivity {
             if (lights.size()==0) {text.setText(" Sorry.\n There is no light you can control!");}else{
                 for(int i=0;i<lights.size();i++){
                 SeekBar  bar=new SeekBar(this);
+                TextView t =new TextView(this);
+                t.setText("  Light "+lights.get(i).getId());
+                t.setTextSize(26);
                 bar.setId(i);
                 bar.setScrollBarSize(100);
+                bar.setProgress(lights.get(i).getCurrentBrightness());
                 bar.setPadding(30,20,30,20);
+                layout.addView(t);
                 layout.addView(bar);
                 bar.setOnSeekBarChangeListener(barListener);
                 }
@@ -71,9 +76,9 @@ public class LightManualActivity extends AppCompatActivity {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness()+"  before");
+//            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness()+"  before");
             app.getManager().setLightBrightness(l.get(seekBar.getId()),seekBar.getProgress());
-            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness());
+//            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness());
             
         }
     };

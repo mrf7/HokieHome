@@ -34,18 +34,16 @@ public class AddLightActivity extends AppCompatActivity{
         text =(TextView) this.findViewById(R.id.textView);
         app=(BeaconApplication) getApplication();
 
+        text.setText("  Wait for loading the lights");
         m = app.getManager();
         m.checkForLights(this);
+    }
+
+    public void passNewLights(ArrayList<Light>newLights){
         rooms=app.getRooms();
         for (Room room :rooms){
             listRoomName.add(room.getName());
         }
-    }
-
-    public void passNewLights(ArrayList<Light>newLights){
-
-        ArrayList<String> listName=new ArrayList<String>();
-        text.setText("  Wait for loading the lights");
         display(newLights);
     }
     /**
@@ -54,7 +52,7 @@ public class AddLightActivity extends AppCompatActivity{
      */
     public void display(ArrayList<Light>newLights){
 
-        if(newLights!=null&&newLights.size()!=0){
+        if(newLights!=null && newLights.size()!=0){
             text.setText("select the possible lights to add");
             ArrayList<String> listItem=new ArrayList<String>();
             for (Light temp:newLights){
