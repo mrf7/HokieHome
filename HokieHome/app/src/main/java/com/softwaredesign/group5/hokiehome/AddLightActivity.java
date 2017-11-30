@@ -39,6 +39,10 @@ public class AddLightActivity extends AppCompatActivity{
         m.checkForLights(this);
     }
 
+    /**
+     * PassNewLights method that will be called by the manager to get the lights that are not set up
+     * @param newLights the newly lights needed to be added into the room
+     */
     public void passNewLights(ArrayList<Light>newLights){
         rooms=app.getRooms();
         for (Room room :rooms){
@@ -101,14 +105,10 @@ public class AddLightActivity extends AppCompatActivity{
                 @Override
                 public void onClick(View view) {
                     if(onButton.getText().toString().equals("ON")){
-                        System.out.println("i: "+ i +"brightness of the light before on "+newLights.get(i).getCurrentBrightness());
-                        app.getManager().setLightBrightness(newLights.get(i),10);
-                        System.out.println(newLights.get(i).getCurrentBrightness());
+                        m.setLightBrightness(newLights.get(i),10);
                         onButton.setText("OFF");
                     }else{
-                        System.out.println("i: "+ i +"brightness of the light before off "+newLights.get(i).getCurrentBrightness());
-                        app.getManager().setLightBrightness(newLights.get(i),0);
-                        System.out.println(newLights.get(i).getCurrentBrightness());
+                        m.setLightBrightness(newLights.get(i),0);
                         onButton.setText("ON");
                     }
                 }
