@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class AddLightActivity extends AppCompatActivity{
     private ListView layout;
     private BeaconApplication app;
+    private Manager m;
     private ArrayList<Light> newLights;
     private ArrayList<Room> rooms;
     private TextView text;
@@ -36,19 +37,31 @@ public class AddLightActivity extends AppCompatActivity{
         app=(BeaconApplication) getApplication();
         newLights=app.getNewLights();
         rooms=app.getRooms();
+        m = app.getManager();
+        //newLights=m.getLights(this);
+
         listName=new ArrayList<String>();
         for (Room room :rooms){
             listName.add(room.getName());
         }
-        display(newLights);
+        text.setText("  Wait for loading the lights");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                display(listName);
+            }
+        }, 3000);
+
         }
 
     /**
-     * Private method to display all the possible lights that are needed to be added
+     * Public method to display all the possible lights that are needed to be added
      * @param lights the available lights to be added
      */
-    private void display(final ArrayList<Light> lights){
+    public void display(final ArrayList<String> lights){
+
         if(lights!=null&&lights.size()!=0){
+            text.setText("select the possible lights to add");
             ArrayList<String> listItem=new ArrayList<String>();
             for (Light temp:newLights){
                 listItem.add("Light "+temp.getMAC());

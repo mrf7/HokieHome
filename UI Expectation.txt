@@ -1,0 +1,19 @@
+Open the app:
+	It pops up the main page with: 
+			a button named Add light
+			a list of rooms that are set up in the system
+case 1:
+Click on the add button:
+	It pops up a page containing a list of possible lights that are not set up and can be added into a room(each light has add and ON/OFF button)
+	case 1.1:
+		click ON/OFF button:
+		turn on/off the light so that users can locate this light	
+	case 1.2:
+		click Add button:
+		A list of possible rooms that can be added with a newly light pops up;once the user select the room, this light gets added to the selecte room, and it automatically goes back to the main page
+
+case 2:
+Click on room:	
+	It pops up another page that contains several scrollbars(to adjust the brightness by moving them)
+	Users can hit the built-in back icon on the phone to return to the main page
+	
