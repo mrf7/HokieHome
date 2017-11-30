@@ -13,11 +13,14 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Jordan on 11/22/2017.
@@ -26,7 +29,7 @@ import java.net.URISyntaxException;
 public class SocketIO {
 
     private Activity mainActivity;
-    private String Ip_Port = "http://10.0.0.100:9092";
+    private String Ip_Port = "http://10.0.0.100:10443";
     private JSONObject lastCommand;
 
     public JSONObject getLastCommand() {
@@ -58,23 +61,23 @@ public class SocketIO {
 
     public void checkForRoom (Activity a)
     {
+        Log.d("debug", "request");
         mainActivity = a;
-        mSocket.emit("getRooms");
-        mSocket.on("Room", checkForRoom);
-        mSocket.off("Lights");
+        mSocket.on("roomsCallback", checkForRoom);
+        mSocket.emit("getRooms", "");
     }
 
     public void checkforLights(Activity a)
     {
         mainActivity = a;
-        mSocket.emit("getNewLights");
-        mSocket.on("Lights", checkForLights);
-        mSocket.off("Room");
+        mSocket.on("newLightsCallback", checkForLights);
+        mSocket.emit("getNewLights", "");
     }
 
     public void connect()
     {
         mSocket.connect();
+        Log.d("debug", "connect");
         sendUserInfo();
     }
 
@@ -104,9 +107,8 @@ public class SocketIO {
      * method used to send a command message
      * @param message
      */
-    public void enteredRoom(JSONObject message) throws JSONException {
+    public void enteredRoom(JSONObject message) {
         mSocket.emit("enteredRoom", message.toString());
-        Log.d("BeaconReferenceApp", String.valueOf(message.get("Name")));
         lastCommand = message;
     }
 
@@ -119,23 +121,38 @@ public class SocketIO {
 
         @Override
         public void call(final Object... args) {
-            new Runnable() {
+            mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String username;
-                    String message;
+                    Log.d("BeaconReferenceApp", "Got some data");
+                    JSONObject data = null;
                     try {
-                        username = data.getString("username");
-                        message = data.getString("message");
+                        data = new JSONObject((String) args[0]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Room> rooms = new ArrayList<>();
+                    try {
+                        Iterator<String> keys = data.keys();
+                        while (keys.hasNext())
+                        {
+                            String currentKey = keys.next();
+                            Room cRoom = new Room(currentKey);
+                            JSONArray lights = data.getJSONArray(currentKey);
+                            for(int i = 0; i < lights.length(); i++)
+                            {
+                                Light cLight = new Light(((JSONObject) lights.get(i)).getInt("lightId"));
+                                cRoom.addLight(cLight);
+                            }
+                            rooms.add(cRoom);
+                        }
+                        (MainActivity) mainActivity.passRooms(rooms);
                     } catch (JSONException e) {
                         return;
                     }
-
-                    // add the message to view
-                    //addMessage(username, message);
+                    Log.d("BeaconReferenceApp", rooms.get(0).getName() + rooms.get(0).getLights().get(0).getId());
                 }
-            };
+            });
         }
     };
 
@@ -149,18 +166,20 @@ public class SocketIO {
             new Runnable() {
                 @Override
                 public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String username;
-                    String message;
-                    try {
-                        username = data.getString("username");
-                        message = data.getString("message");
-                    } catch (JSONException e) {
-                        return;
+                    Log.d("debug", "recieved info");
+                    JSONArray data = (JSONArray) args[0];
+                    ArrayList<Light> lights = new ArrayList<>();
+                    for(int i = 0; i < data.length(); i++)
+                    {
+                        try {
+                            Light cLight = new Light((Integer) data.get(i));
+                            lights.add(cLight);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-
                     // add the message to view
-                    //addMessage(username, message);
+                    (AddLightActivity) mainActivity.addlights(lights);
                 }
             };
         }

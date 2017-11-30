@@ -8,6 +8,9 @@ public class Light {
     int id;
     int currentBrightness;
 
+    public Light(int identifier) {
+        id = identifier;
+    }
 
 
     public int getCurrentBrightness() {
