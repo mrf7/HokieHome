@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONObject;
@@ -7,6 +8,7 @@ import org.json.JSONObject;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 
 import data.Light;
@@ -16,18 +18,22 @@ import socketIO.SocketManager;
 public class LightController {
 	private static LightController instance = null;
 
-	private LightListener listener;
+	private ArrayList<LightListener> listeners;
 	private final SocketIOServer server;
 	private HashMap<Integer, SocketIOClient> lightMap;
+
+
 
 	/**
 	 * Creates a new LightController and sets up the SocketIO server to recieve
 	 * light events
 	 */
-	public LightController() {
+	private LightController() {
 		server = SocketManager.getInstance();
 		server.addEventListener("lightIdent", String.class, identListener);
+		server.addConnectListener(connectListener);
 		lightMap = new HashMap<Integer, SocketIOClient>();
+		listeners = new ArrayList<LightListener>();
 	}
 
 	// Get the instance of the SocketManager, creating if necessary.
@@ -39,15 +45,22 @@ public class LightController {
 	}
 
 	/**
-	 * Sets the listener for this controller's callbacks
+	 * Adds a listener for this methods callbacks
 	 * 
 	 * @param listener
 	 *            the new listener
 	 */
-	public void setListener(LightListener listener) {
-		this.listener = listener;
+	public void registerListener(LightListener listener) {
+		listeners.add(listener);
 	}
-
+	
+	/**
+	 * Removes a listener
+	 * @param listener the listener to remove
+	 */
+	public void unregisterListener(LightListener listener) {
+		listeners.remove(listener);
+	}
 	/**
 	 * Changes the brightness of the given light
 	 * 
@@ -104,6 +117,15 @@ public class LightController {
 	}
 
 	// Listeners
+	private ConnectListener connectListener = new ConnectListener() {
+
+		@Override
+		public void onConnect(SocketIOClient client) {
+			System.out.println("Device Connected: " + client.toString());
+			
+		}
+		
+	};
 	private DataListener<String> identListener = new DataListener<String>() {
 		@Override
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) throws Exception {
@@ -116,7 +138,7 @@ public class LightController {
 			room = room.equals("!NOROOM") ? null : room;
 			Light newLight = new Light(id);
 			// Notify listener, if it exists
-			if (listener != null) {
+			for (LightListener listener : listeners) {
 				listener.onLightConnected(newLight, room);
 			}
 
