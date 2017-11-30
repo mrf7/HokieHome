@@ -38,7 +38,7 @@ public class LightTests {
 			System.out.println("Open LightSimulatorTest.html, enter 1 in ID, and hit enter in the java console:");
 			System.in.read();
 			// Give Socket time to connect
-			Thread.sleep(100);
+			Thread.sleep(5000);
 		}
 	}
 
