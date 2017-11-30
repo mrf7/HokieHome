@@ -31,6 +31,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         app = (BeaconApplication) getApplication();
-            app.unbind();
+            app.getB().unbind();
     }
 }

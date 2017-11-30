@@ -5,20 +5,21 @@ package com.softwaredesign.group5.hokiehome;
  */
 
 public class Light {
-    String MAC;
+    int id;
     int currentBrightness;
 
 
-    public String getMAC() {
-        return MAC;
-    }
 
     public int getCurrentBrightness() {
         return currentBrightness;
     }
 
-    public void setMAC(String MAC) {
-        this.MAC = MAC;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setCurrentBrightness(int currentBrightness) {
