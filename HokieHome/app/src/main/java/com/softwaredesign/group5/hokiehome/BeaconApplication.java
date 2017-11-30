@@ -13,6 +13,7 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -23,7 +24,8 @@ public class BeaconApplication extends Application {
 
     private Manager m;
     private BeaconScanner b;
-
+    private ArrayList<Light> currentLights;
+    private ArrayList<Room> rooms;
     public BeaconScanner getB() {
         return b;
     }
@@ -38,5 +40,17 @@ public class BeaconApplication extends Application {
 
     public Manager getManager() {
         return m;
+    }
+    public void setCurrentLights(ArrayList<Light>currentLights){
+        this.currentLights=currentLights;
+    }
+    public ArrayList<Light> getCurrentLights(){
+        return this.currentLights;
+    }
+    public void setRooms(ArrayList<Room>rooms){
+        this.rooms=rooms;
+    }
+    public ArrayList<Room>getRooms(){
+        return this.rooms;
     }
 }

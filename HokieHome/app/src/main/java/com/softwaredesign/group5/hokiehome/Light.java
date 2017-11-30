@@ -6,7 +6,7 @@ package com.softwaredesign.group5.hokiehome;
 
 public class Light {
     int id;
-    int currentBrightness;
+    private int currentBrightness;
 
     public Light(int identifier) {
         id = identifier;

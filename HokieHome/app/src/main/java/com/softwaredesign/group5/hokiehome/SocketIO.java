@@ -147,7 +147,7 @@ public class SocketIO {
                             }
                             rooms.add(cRoom);
                         }
-                        (MainActivity) mainActivity.passRooms(rooms);
+                        ((MainActivity) mainActivity).passRooms(rooms);
                     } catch (JSONException e) {
                         return;
                     }
@@ -180,7 +180,7 @@ public class SocketIO {
                         }
                     }
                     // add the message to view
-                    (AddLightActivity) mainActivity.addlights(lights);
+                    ((AddLightActivity) mainActivity).passNewLights(lights);
                 }
             };
         }
