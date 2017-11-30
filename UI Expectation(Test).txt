@@ -11,6 +11,7 @@ Click on the add button:
 	case 1.2:
 		click Add button:
 		A list of possible rooms that can be added with a newly light pops up;once the user select the room, this light gets added to the selecte room, and it automatically goes back to the main page
+		if there are no possible light to be added, a message should show up.
 
 case 2:
 Click on room:	

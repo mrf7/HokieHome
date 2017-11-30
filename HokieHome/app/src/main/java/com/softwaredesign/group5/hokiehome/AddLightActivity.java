@@ -166,7 +166,6 @@ public class AddLightActivity extends AppCompatActivity{
                     newLights.remove(position);
                     Toast toast=Toast.makeText(AddLightActivity.this,t.getText().toString(),Toast.LENGTH_SHORT);
                     toast.show();
-
                 }
             });
         }return popView;
