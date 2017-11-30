@@ -27,6 +27,10 @@ public class Manager {
     private Beacon currentClosest = null;
     private SocketIO socket = new SocketIO();
 
+    public SocketIO getSocket() {
+        return socket;
+    }
+
     public Manager (User u)
     {
         currentUser = u;
@@ -58,6 +62,11 @@ public class Manager {
 
     }
 
+    public void checkForLights()
+    {
+
+    }
+
     /**
      * method used to send a JSON method to the server when entering a new room
      *
@@ -84,14 +93,13 @@ public class Manager {
      * @param r room object that the light is contained in
      * @param l light being added
      */
-    public void addLight(Room r, Light l) {
+    public void addLight(String roomName, Light l) {
         JSONObject com = new JSONObject();
         try {
             com.put("Action", "Add");
             com.put("Object", "Light");
-            com.put("Room", r.getName());
+            com.put("Room", roomName);
             com.put("Name", l.getMAC());
-            r.addLight(l);
             socket.createObject(com);
         } catch (JSONException e) {
             e.printStackTrace();
