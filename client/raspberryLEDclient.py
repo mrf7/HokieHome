@@ -13,7 +13,9 @@ def changeBrightness(brightness):
 	print("LED set to: ", brightness)	
     
 def onConnect(): 
-	socketIO.emit("roomIdent", sys.argv[3])
+	lightIdentifier = {"id": int(sys.argv[2]),
+						"room": sys.argv[3]}
+	socketIO.emit("lightIdent", lightIdentifier)
 	print('connected')
 # Set up GPIO pins 
 GPIO.setmode(GPIO.BCM)
@@ -24,8 +26,8 @@ led.start(0)
 # Set up logger
 logging.getLogger("socketIO-client").setLevel(logging.DEBUG)
 logging.basicConfig()
-#sys.argv[1] is the ip address of the server, sys.argv[2] is the port number, sys.argv[3] is the room 
-socketIO = SocketIO(sys.argv[1], sys.argv[2], LoggingNamespace)
+#sys.argv[1] is the ip address of the server, sys.argv[2] is the id number, sys.argv[3] is the room 
+socketIO = SocketIO(sys.argv[1], 9092, LoggingNamespace)
 socketIO.on("changeBrightness", changeBrightness)
 socketIO.on("connect", onConnect)
 socketIO.wait()
