@@ -22,9 +22,17 @@ Light-Server Communication Events:
     
 
 Server-App Communication Events
+    "userIdent": App->Server
+        Sent by phone to identify user
+        data: JSONObject
+        ex: {"name": "Jordan",
+             "prefBrightness": 69}
+      
 	"enteredRoom": App->Server
 		Sent by phone when user enters new room
-		data: String room name
+		data: JSONObject
+        ex: {"room": "bedroom",
+             "userName": "Jordan"}
 		
 	"setBrightness": App->Server
 		Sent to change brightness of light
@@ -39,11 +47,10 @@ Server-App Communication Events
 	"roomsCallback": Server->App
 		Callback for getRooms
 		data:JSONArray
-		ex format: [...
-					"roomName": "bedroom"
-					"lights": {"lightId": 1
-							   "brightness": 32
-					...]
+		ex format: {...
+					{"bedroom": [...{"lightId": 1
+                                 "brightness": 32}...]}
+					...}
 					
 	"getNewLights": App->Server
 		Fetches lights that aren'ts et up
