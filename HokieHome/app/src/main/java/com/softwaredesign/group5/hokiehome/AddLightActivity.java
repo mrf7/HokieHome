@@ -161,7 +161,6 @@ public class AddLightActivity extends AppCompatActivity{
                     app.getManager().addLight(listRoomName.get(i),newLights.get(position));
                     TextView t=new TextView(AddLightActivity.this);
                     t.setText("You successfully added light "+newLights.get(position).getId()+" into room"+rooms.get(i).getName());
-                    newLights.remove(position);
                     Toast toast=Toast.makeText(AddLightActivity.this,t.getText().toString(),Toast.LENGTH_SHORT);
                     toast.show();
                 }
