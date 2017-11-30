@@ -21,34 +21,39 @@ Light-Server Communication Events:
         data: none
     
 
-
-"Create" for creating objects
-		Json format:
-		Adding User
-			"Action" - "Add"
-			"Object" - "User"
-			"Name" - The User's Username
-			"Pass" - The User's Password
-			"PreBright" - The User's Prefered Brightness
-	    Adding Lights
-			"Action" - "Add"
-			"Object" - "Light"
-			"Room" - room name that holds it
-			"Name" - light mac address
-		Adding Room
-			"Action" - "Add"
-			"Object" - "Room"
-			"Name" - Room name
-		Adding Dash Button
-			"Action" - "Add"
-			"Object" - "Dash"
-			"Name" - dash button's mac address
-			"Lights" - arraylist of lights that it controls
-
-"Command" for commands pertaining to objects
-		Json Format:
-		Enter Room
-			"Action" - "Enter"
-			"Object" - "Room"
-			"Brightness" - User Prefered Brightness (could just be held server side)
-			"Name" - room name
+Server-App Communication Events
+	"enteredRoom": App->Server
+		Sent by phone when user enters new room
+		data: String room name
+		
+	"setBrightness": App->Server
+		Sent to change brightness of light
+		data: JSONObject
+		ex format: {'lightId': 1,
+					"brightness": 20}
+					
+	"getRooms": App->Server
+		Fetches the list of rooms from server
+		data: None
+		
+	"roomsCallback": Server->App
+		Callback for getRooms
+		data:JSONArray
+		ex format: [...
+					"roomName": "bedroom"
+					"lights": {"lightId": 1
+							   "brightness": 32
+					...]
+					
+	"getNewLights": App->Server
+		Fetches lights that aren'ts et up
+		data: None
+	"newLightsCallback": Server->App
+		Returns new lights to app
+		data: JSONArray of light ids
+		ex format: [2, 4, 6,...]
+	"addLight": App->Server
+		Adds a light to a room
+		data: JSONObject
+		ex format: {"lightId": 2, "room": bedroom"}
+		
