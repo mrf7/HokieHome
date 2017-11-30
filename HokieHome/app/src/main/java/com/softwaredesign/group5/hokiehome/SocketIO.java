@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -74,14 +75,22 @@ public class SocketIO {
         mSocket.emit("getNewLights", "");
     }
 
-    public void connect()
+    public void connect(User u)
     {
         mSocket.connect();
         Log.d("debug", "connect");
-        sendUserInfo();
+        sendUserInfo(u);
     }
 
-    private void sendUserInfo() {
+    private void sendUserInfo(User u) {
+        JSONObject user = new JSONObject();
+        try {
+            user.put("prefBrightness", u.getPreBrightness());
+            user.put("name", u.getUsername());
+            mSocket.emit("userIdent", user);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
