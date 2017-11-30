@@ -42,12 +42,11 @@ public class SocketIOTest {
     public void testsendingCommands()
     {
         setUp();
-        Light l = new Light();
-        l.setMAC("AEDS");
+        Light l = new Light(1);
         m.setLightBrightness(l, 50);
         JSONObject sent = IO.getLastCommand();
         try {
-            assertEquals(sent.get("Name"), l.getMAC());
+            assertEquals(sent.get("Name"), l.getId());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -62,7 +61,7 @@ public class SocketIOTest {
         sent = IO.getLastCommand();
         try {
             assertEquals(sent.get("Room"), "Living Room");
-            assertEquals(sent.get("Name"), l.getMAC());
+            assertEquals(sent.get("Name"), l.getId());
         } catch (JSONException e) {
             e.printStackTrace();
         }
