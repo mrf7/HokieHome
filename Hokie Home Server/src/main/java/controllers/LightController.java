@@ -22,8 +22,6 @@ public class LightController {
 	private final SocketIOServer server;
 	private HashMap<Integer, SocketIOClient> lightMap;
 
-
-
 	/**
 	 * Creates a new LightController and sets up the SocketIO server to recieve
 	 * light events
@@ -51,16 +49,21 @@ public class LightController {
 	 *            the new listener
 	 */
 	public void registerListener(LightListener listener) {
-		listeners.add(listener);
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
+		}
 	}
-	
+
 	/**
 	 * Removes a listener
-	 * @param listener the listener to remove
+	 * 
+	 * @param listener
+	 *            the listener to remove
 	 */
 	public void unregisterListener(LightListener listener) {
 		listeners.remove(listener);
 	}
+
 	/**
 	 * Changes the brightness of the given light
 	 * 
@@ -99,32 +102,15 @@ public class LightController {
 		return true;
 	}
 
-	/**
-	 * Resets the given lights setup. Room is reset to !NOROOM
-	 * 
-	 * @param light
-	 *            the light to reset
-	 * @return true if the event was sent
-	 */
-	public boolean resetLight(Light light) {
-		SocketIOClient lightClient = lightMap.get(light.getId());
-		// Make sure the light id is valid
-		if (lightClient == null) {
-			return false;
-		}
-		lightClient.sendEvent("reset");
-		return true;
-	}
 
 	// Listeners
 	private ConnectListener connectListener = new ConnectListener() {
 
 		@Override
 		public void onConnect(SocketIOClient client) {
-			System.out.println("Device Connected: " + client.toString());
-			
+
 		}
-		
+
 	};
 	private DataListener<String> identListener = new DataListener<String>() {
 		@Override

@@ -53,7 +53,7 @@
                         var room = $('#room').val();
                         $('#room').val('');
 
-                        var ident = "{'id': 123, 'room': "+ room + "}";
+                        var ident = "{'id': "+id+ ", 'room': "+ room + "}";
 						 
                         socket.emit('lightIdent', ident);
 		}
@@ -74,21 +74,17 @@
 
 <body>
 
-	<h1>Netty-socketio Demo Chat</h1>
+	<h1>Light Simulator</h1>
 
 	<br/>
 
 	<div id="console" class="well">
 	</div>
-
-        <form class="well form-inline" onsubmit="return false;">
-           <input id="room" class="input-xlarge" type="text" placeholder="Type something..."/>
-           <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
-           <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
-        </form>
-
-
-
+	<form class="well form-inline" onsubmit="return false;">
+        <input id="id" class="input-xlarge" type="number" placeholder="ID"/>
+		<input id="room" class="input-xlarge" type="text" placeholder="Room(optional)"/>
+        <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
+    </form>
 </body>
 
 </html>

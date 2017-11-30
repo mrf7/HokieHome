@@ -42,9 +42,9 @@ public class HokieHome {
 			}
 		});
 		Thread.sleep(8000);
-		rooms.get("red").turnOn();
+		//rooms.get("red").turnOn();
 		Thread.sleep(2000);
-		rooms.get("red").turnOff();
+		//rooms.get("red").turnOff();
 		Thread.sleep(Integer.MAX_VALUE);
 	}
 

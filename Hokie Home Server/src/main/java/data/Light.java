@@ -14,19 +14,24 @@ public class Light {
 	}
 
 	// Sets the brightness of the light using the light controller
-	public void setBrightness(int bright) {
-		controller.setBrightness(this, bright);
-		brightness = bright;
+	public boolean setBrightness(int bright) {
+		if (controller.setBrightness(this, bright)) {
+			brightness = bright;
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 
 	// Turns brightness to max
-	public void turnOn() {
-		setBrightness(100);
+	public boolean turnOn() {
+		return setBrightness(100);
 	}
 
 	// Turns light off
-	public void turnOff() {
-		setBrightness(0);
+	public boolean turnOff() {
+		return setBrightness(0);
 	}
 
 	// Getters
