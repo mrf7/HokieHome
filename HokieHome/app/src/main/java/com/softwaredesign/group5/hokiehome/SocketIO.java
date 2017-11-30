@@ -142,6 +142,7 @@ public class SocketIO {
                             for(int i = 0; i < lights.length(); i++)
                             {
                                 Light cLight = new Light(((JSONObject) lights.get(i)).getInt("lightId"));
+                                cLight.setCurrentBrightness(((JSONObject) lights.get(i)).getInt("brightness"));
                                 cRoom.addLight(cLight);
                             }
                             rooms.add(cRoom);
