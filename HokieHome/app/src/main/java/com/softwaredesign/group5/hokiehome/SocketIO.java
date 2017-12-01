@@ -31,13 +31,9 @@ public class SocketIO {
 
     private Activity mainActivity;
 
-    public boolean isRecievedcallback() {
-        return recievedcallback;
-    }
 
-    private String Ip_Port = "http://10.0.0.100:9092";
+    private String Ip_Port = "http://10.0.0.116:9092";
     private JSONObject lastCommand;
-    private boolean recievedcallback = false;
 
     public JSONObject getLastCommand() {
         return lastCommand;
@@ -72,7 +68,6 @@ public class SocketIO {
         mainActivity = a;
         mSocket.on("roomsCallback", checkForRoom);
         mSocket.emit("getRooms", "");
-        recievedcallback = false;
     }
 
     public void checkforLights(Activity a)
@@ -80,7 +75,6 @@ public class SocketIO {
         mainActivity = a;
         mSocket.on("newLightsCallback", checkForLights);
         mSocket.emit("getNewLights", "");
-        recievedcallback = false;
     }
 
     public void connect(User u)
@@ -140,7 +134,7 @@ public class SocketIO {
 
 
     /**
-     * listens to server callbacks
+     * listens to server for room callbacks
      */
     private Emitter.Listener checkForRoom = new Emitter.Listener() {
 
@@ -150,12 +144,12 @@ public class SocketIO {
                 @Override
                 public void run() {
                     Log.d("Callbacks", "CheckForRoomsReceived");
-                    recievedcallback = true;
                     JSONObject data = null;
                     try {
                         data = new JSONObject((String) args[0]);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        return;
                     }
                     ArrayList<Room> rooms = new ArrayList<>();
                     try {
@@ -185,7 +179,7 @@ public class SocketIO {
     };
 
     /**
-     * listens to server callbacks
+     * listens to server light callbacks
      */
     private Emitter.Listener checkForLights = new Emitter.Listener() {
 
@@ -195,7 +189,6 @@ public class SocketIO {
                 @Override
                 public void run() {
                     Log.d("Callbacks", "CheckForLightsRecieved");
-                    recievedcallback = true;
                     JSONArray data = (JSONArray) args[0];
                     ArrayList<Light> lights = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++)

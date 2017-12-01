@@ -20,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -71,23 +73,30 @@ public class MainActivity extends AppCompatActivity {
     {
         ArrayList<String> listItem= new ArrayList<String>();
         app.setRooms(rooms);
-        if(rooms!=null&&rooms.size()!=0){
-            for(Room temp:rooms){
-                listItem.add(temp.getName());
+        if(rooms==null){
+            TextView t=new TextView(this);
+            t.setText("There is no room set up in the system");
+            Toast toast=Toast.makeText(this,t.getText().toString(),Toast.LENGTH_LONG);
+            toast.show();
+        }else {
+            if (rooms != null && rooms.size() != 0) {
+                for (Room temp : rooms) {
+                    listItem.add(temp.getName());
+                }
             }
+            ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItem);
+            ListView roomView = (ListView) findViewById(R.id.list_view);
+            roomView.setAdapter(adapter);
+            roomView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    app.setCurrentLights(rooms.get(i).getLights());
+                                                    Intent myIntent = new Intent(MainActivity.this, LightManualActivity.class);
+                                                    startActivity(myIntent);
+                                                }
+                                            }
+            );
         }
-        ListAdapter adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listItem);
-        ListView roomView =(ListView)findViewById(R.id.list_view);
-        roomView.setAdapter(adapter);
-        roomView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                app.setCurrentLights(rooms.get(i).getLights());
-                Intent myIntent=new Intent(MainActivity.this,LightManualActivity.class);
-                startActivity(myIntent);
-             }}
-        );
-
     }
 
     @Override
