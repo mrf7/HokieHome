@@ -73,8 +73,8 @@ public class LightController {
 	 *            the brightness to set. Must be between 0 and 100
 	 * @return true if the event was sent
 	 */
-	public boolean setBrightness(Light light, int bright) {
-		SocketIOClient lightClient = lightMap.get(light.getId());
+	public boolean setBrightness(int lightID, int bright) {
+		SocketIOClient lightClient = lightMap.get(lightID);
 		// Make sure the light id is valid and the brightness is in acceptable range
 		if (lightClient == null || bright > 100 || bright < 0) {
 			return false;

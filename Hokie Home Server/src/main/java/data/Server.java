@@ -13,11 +13,13 @@ public class Server implements LightListener, MobileListener {
 	private static ArrayList<Light> newLights;
 	private static HashMap<String, Room> rooms;
 	private static HashMap<String, User> users;
-
+	
+	private LightController lightController;
+	private MobileController mobileController;
 	// Create the server instance to store controllers and listeners
 	private Server() {
-		LightController lightController = LightController.getInstance();
-		MobileController mobileController = MobileController.getInstance();
+		lightController = LightController.getInstance();
+		mobileController = MobileController.getInstance();
 		rooms = new HashMap<String, Room>();
 		newLights = new ArrayList<Light>();
 		users = new HashMap<String, User>();
@@ -62,12 +64,12 @@ public class Server implements LightListener, MobileListener {
 				rooms.put(room, newRoom);
 			} else {
 				rooms.get(room);
-				
+
 			}
 		} else { // Add light to list of not set up lights
 			newLights.add(newLight);
 		}
-		//Flash the light to indicate connection
+		// Flash the light to indicate connection
 		newLight.turnOn();
 		try {
 			Thread.sleep(300);
@@ -92,30 +94,69 @@ public class Server implements LightListener, MobileListener {
 
 	@Override
 	public void onUserEnteredRoom(String userName, String roomName) {
-		// Get the room object 
+		// Get the room object
 		Room room = rooms.get(roomName);
 		if (room == null) {
-			//If room is null, the room with roomName has no connected lights. Add the room to the rooms list to add lights
+			// If room is null, the room with roomName has no connected lights. Add the room
+			// to the rooms list so users can see the room and add lights
 			room = new Room(roomName);
-			rooms.put(roomName, room);			
+			rooms.put(roomName, room);
+			return;
 		}
+		// Get the users preferences
+		User user = users.get(userName);
+		if (user == null) {
+			// If no user exists, create a new user with default brightness
+			user = new User(userName);
+			users.put(userName, user);
+		}
+		room.setBrightness(user.getPreferredBrightness());
 	}
 
 	@Override
-	public void onRoomExit(String room) {
-		// TODO Auto-generated method stub
-
+	public void onRoomExit(String roomName) {
+		// Get the room object
+		Room room = rooms.get(roomName);
+		if (room == null) {
+			// If room is null, the room with roomName has no connected lights. Add the room
+			// to the rooms list so users can see the room and add lights
+			room = new Room(roomName);
+			rooms.put(roomName, room);
+			return;
+		}
+		room.turnOff();
 	}
 
 	@Override
 	public void onSetBrightness(int lightID, int brightness) {
-		// TODO Auto-generated method stub
-
+		if (!lightController.setBrightness(lightID, brightness)) {
+			System.out.println("No light found for id: " + lightID);
+		}
 	}
 
 	@Override
-	public void onAddLight(int lightID, String room) {
-		// TODO Auto-generated method stub
-
+	public void onAddLight(int lightID, String roomName) {
+		// Get the light associated with ID
+		Light light = null;
+		for (Light l : newLights) {
+			if (l.getId() == lightID) {
+				light = l;
+				newLights.remove(l);
+				break;
+			}
+		}
+		//If light wasnt found, print error
+		if (light == null) {
+			System.out.println("New light " + lightID + " not found");
+			return;
+		}
+		// Get the room to add the light too
+		Room room = rooms.get(roomName);
+		// If room doesnt exist yet, create it 
+		if (room == null) {
+			room = new Room(roomName);
+			rooms.put(roomName, room);
+		}
+		room.addLight(light);
 	}
 }

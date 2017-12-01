@@ -49,7 +49,11 @@ public class Room
             light.turnOff();
         }
     }
-
+    public void setBrightness(int brightness) {
+    	for (Light light : lights) {
+    		light.setBrightness(brightness);
+    	}
+    }
     @Override
     public String toString() {
     	return name + " has lights: " +lights;

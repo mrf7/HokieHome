@@ -15,7 +15,7 @@ public class Light {
 
 	// Sets the brightness of the light using the light controller
 	public boolean setBrightness(int bright) {
-		if (controller.setBrightness(this, bright)) {
+		if (controller.setBrightness(id, bright)) {
 			brightness = bright;
 			return true;
 		} else {

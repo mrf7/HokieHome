@@ -6,7 +6,10 @@ public class User
     private int prefBrightness;
     
     
-    
+    public User(String username) {
+    	this.username = username;
+    	this.prefBrightness = 100;
+    }
     public User(String username, int preferredBrightness)
     {
         this.username = username;
@@ -18,7 +21,9 @@ public class User
     {
         return username;
     }
-
+    public int getPreferredBrightness() {
+		return prefBrightness;
+	}
     public boolean equals(Object o)
     {
         if(o == null)
@@ -36,4 +41,5 @@ public class User
     public String toString() {
     	return "UserName: " + username +", Brightness Pref: " + prefBrightness;
     }
+	
 }
