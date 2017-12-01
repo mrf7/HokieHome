@@ -17,7 +17,7 @@ AD_Type_Manufacturer_Specific_Data="ff"    # Type of AD structure as Manufacture
 AD_Data_Company_Identifier="18 01"    # Company identifier (little endian).  Radius Networks ID used for example (0x0118).  Substitute your assigned manufacturer code, if available.
 AD_Data_Proximity_Type="be ac"    # AltBeacon advertisement code.  Big endian representation of 0xBEAC
 # Note: the 20-byte beacon identifier has been subdivided into three parts in this example for interoperability
-AD_Data_ID1="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"    # Organizational identifier as 16-byte UUID value
+AD_Data_ID1=$1    # Organizational identifier as 16-byte UUID value
 AD_Data_ID2="00 01"    # Beacon Group as 2-byte value
 AD_Data_ID3="00 01"    # Beacon Unit as 2-byte value
 AD_Data_Reference_RSSI="c5"    # Signed 1-byte value representing the average received signal strength at 1m from the advertiser
