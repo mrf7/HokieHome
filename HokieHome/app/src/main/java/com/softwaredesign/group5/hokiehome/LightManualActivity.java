@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 
@@ -76,10 +75,7 @@ public class LightManualActivity extends AppCompatActivity {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-//            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness()+"  before");
             app.getManager().setLightBrightness(l.get(seekBar.getId()),seekBar.getProgress());
-//            System.out.println("Light "+(int)seekBar.getId()+"  "+l.get((int)seekBar.getId()).getCurrentBrightness());
-            
         }
     };
 

@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         app.getManager().checkForRooms(this);
     }
 
+    /**
+     * passRooms method that will be called by manager to pass the rooms
+     * @param rooms are the rooms that are set up
+     */
     public void passRooms (final ArrayList<Room> rooms)
     {
         ArrayList<String> listItem= new ArrayList<String>();
@@ -92,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
         app = (BeaconApplication) getApplication();
             app.getB().unbind();
     }
-    public Button.OnClickListener buttonListener=new Button.OnClickListener(){
+
+    /**
+     * private buttonListener to start the addLight activity
+     */
+    private Button.OnClickListener buttonListener=new Button.OnClickListener(){
         @Override
         public void onClick(View view) {
             Intent myIntent=new Intent(MainActivity.this,AddLightActivity.class);
