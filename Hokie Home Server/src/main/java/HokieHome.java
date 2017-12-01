@@ -12,6 +12,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import controllers.LightController;
+import controllers.MobileController;
 import data.Light;
 import data.Room;
 
@@ -20,6 +21,7 @@ public class HokieHome {
 	private static ArrayList<Light> newLights;
 	public static void main(String[] args) throws InterruptedException {
 		LightController controller = LightController.getInstance();
+		MobileController mcontroller = MobileController.getInstance();
 		rooms = new HashMap<String, Room>();
 		newLights = new ArrayList<Light>();
 		controller.registerListener(new LightController.LightListener() {
