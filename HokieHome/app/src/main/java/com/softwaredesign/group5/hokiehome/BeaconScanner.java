@@ -43,6 +43,12 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
         return beaconManager;
     }
 
+
+    /**
+     * Constructor
+     * @param c app context
+     * @param manager the IO Manager
+     */
     public BeaconScanner( Context c, Manager manager) {
         appC = c;
         beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(getApplicationContext());
@@ -59,7 +65,7 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
 
         //Uncomment the below methods for testing simulated beacons
         //It should list the beacon names as they are found in Logcat
-        //The beacons should be in the order LivingRoom, Kitchen, Bathroom, DiningRoom
+        //The beacons should be in the order 1, 2, 3, 4
         //The TAG "BeaconReferenceApp" can be used in Logcat to filter the results.
         //BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
         //((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
@@ -83,6 +89,7 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
         //Log.d(TAG,"I have just switched from seeing/not seeing beacons: " + state);
     }
 
+    //scans beacons in the area and finds all visible
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
         if (beacons.size() > 0) {
