@@ -50,7 +50,7 @@ public class Manager {
     public void setLightBrightness(Light l, int brightness) {
         JSONObject com = new JSONObject();
         try {
-            com.put("lightId", l.getId());
+            com.put("id", l.getId());
             com.put("brightness", brightness);
             socket.setBrightness(com);
             l.setCurrentBrightness(brightness);
@@ -99,7 +99,7 @@ public class Manager {
     public void addLight(String roomName, Light l) {
         JSONObject com = new JSONObject();
         try {
-            com.put("lightId", l.getId());
+            com.put("id", l.getId());
             com.put("room", roomName);
             socket.addLight(com);
         } catch (JSONException e) {

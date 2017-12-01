@@ -147,12 +147,8 @@ public class SocketIO {
                     JSONObject data = null;
                     try {
                         data = new JSONObject((String) args[0]);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-                    ArrayList<Room> rooms = new ArrayList<>();
-                    try {
+
+                        ArrayList<Room> rooms = new ArrayList<>();
                         Iterator<String> keys = data.keys();
                         while (keys.hasNext())
                         {
@@ -161,8 +157,10 @@ public class SocketIO {
                             JSONArray lights = data.getJSONArray(currentKey);
                             for(int i = 0; i < lights.length(); i++)
                             {
-                                Light cLight = new Light(((JSONObject) lights.get(i)).getInt("lightId"));
+                                Light cLight = new Light(((JSONObject) lights.get(i)).getInt("id"));
                                 cLight.setCurrentBrightness(((JSONObject) lights.get(i)).getInt("brightness"));
+                                Log.d("BeaconApp", cLight.getCurrentBrightness() + "");
+
                                 cRoom.addLight(cLight);
                             }
                             rooms.add(cRoom);
@@ -171,6 +169,8 @@ public class SocketIO {
                             ((MainActivity) mainActivity).passRooms(rooms);
                         }
                     } catch (JSONException e) {
+                        Log.d("Callbacks", "Exceptions.....");
+                        e.printStackTrace();
                         return;
                     }
                 }
@@ -189,10 +189,13 @@ public class SocketIO {
                 @Override
                 public void run() {
                     Log.d("Callbacks", "CheckForLightsRecieved");
-                    JSONArray data = (JSONArray) args[0];
+                    JSONArray data = null;
+                    try {
+                        data = new JSONArray((String)
+                                args[0]);
+
                     ArrayList<Light> lights = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++)
-
                     {
                         try {
                             Light cLight = new Light((Integer) data.get(i));
@@ -205,6 +208,10 @@ public class SocketIO {
                     if (mainActivity != null)
                     {
                         ((AddLightActivity) mainActivity).passNewLights(lights);
+                    }
+                    } catch (JSONException e) {
+                        Log.d("Callbacks", "Exceptions.....");
+                        e.printStackTrace();
                     }
                 }
             });

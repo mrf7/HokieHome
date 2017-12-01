@@ -33,7 +33,7 @@ public class AddLightActivity extends AppCompatActivity{
         layout= (ListView) findViewById(R.id.newLightsList);
         text =(TextView) this.findViewById(R.id.textView);
         app=(BeaconApplication) getApplication();
-
+        listRoomName = new ArrayList<>();
         text.setText("  Wait for loading the lights");
         m = app.getManager();
         m.checkForLights(this);
