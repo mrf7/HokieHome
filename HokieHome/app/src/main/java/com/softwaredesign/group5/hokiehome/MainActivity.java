@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     {
         ArrayList<String> listItem= new ArrayList<String>();
         app.setRooms(rooms);
-        if(rooms==null){
+        if(rooms==null||rooms.size()==0){
             TextView t=new TextView(this);
             t.setText("There is no room set up in the system");
             Toast toast=Toast.makeText(this,t.getText().toString(),Toast.LENGTH_LONG);
