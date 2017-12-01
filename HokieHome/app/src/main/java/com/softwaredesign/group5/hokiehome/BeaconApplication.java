@@ -46,12 +46,15 @@ public class BeaconApplication extends Application {
     public Manager getManager() {
         return m;
     }
+
     public void setCurrentLights(ArrayList<Light>currentLights){
         this.currentLights=currentLights;
     }
+
     public ArrayList<Light> getCurrentLights(){
         return this.currentLights;
     }
+
     public void setRooms(ArrayList<Room>rooms){
         this.rooms=rooms;
     }
