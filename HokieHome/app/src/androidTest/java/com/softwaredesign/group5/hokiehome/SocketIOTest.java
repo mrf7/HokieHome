@@ -47,22 +47,31 @@ public class SocketIOTest {
         m.setLightBrightness(l, 50);
         JSONObject sent = IO.getLastCommand();
         try {
-            assertEquals(sent.get("Name"), l.getId());
+            assertEquals(sent.get("lightID"), l.getId());
+            assertEquals(sent.get("brightness"), 50);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         m.enteredRoom("Living Room");
         sent = IO.getLastCommand();
         try {
-            assertEquals(sent.get("Name"), "Living Room");
+            assertEquals(sent.get("room"), "Living Room");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         m.addLight("Living Room", l);
         sent = IO.getLastCommand();
         try {
-            assertEquals(sent.get("Room"), "Living Room");
-            assertEquals(sent.get("Name"), l.getId());
+            assertEquals(sent.get("room"), "Living Room");
+            assertEquals(sent.get("lightId"), l.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        m.leftRoom("Living Room");
+        sent = IO.getLastCommand();
+        try {
+            assertEquals(sent.get("room"), "Living Room");
         } catch (JSONException e) {
             e.printStackTrace();
         }

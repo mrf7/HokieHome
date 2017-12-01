@@ -149,7 +149,7 @@ public class SocketIO {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("Callbacks", "CheckForRoomsRecieved");
+                    Log.d("Callbacks", "CheckForRoomsReceived");
                     recievedcallback = true;
                     JSONObject data = null;
                     try {
@@ -199,6 +199,7 @@ public class SocketIO {
                     JSONArray data = (JSONArray) args[0];
                     ArrayList<Light> lights = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++)
+
                     {
                         try {
                             Light cLight = new Light((Integer) data.get(i));
