@@ -1,6 +1,11 @@
 package com.softwaredesign.group5.hokiehome;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -41,12 +46,15 @@ public class BeaconApplication extends Application {
     public Manager getManager() {
         return m;
     }
+
     public void setCurrentLights(ArrayList<Light>currentLights){
         this.currentLights=currentLights;
     }
+
     public ArrayList<Light> getCurrentLights(){
         return this.currentLights;
     }
+
     public void setRooms(ArrayList<Room>rooms){
         this.rooms=rooms;
     }

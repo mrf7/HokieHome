@@ -23,7 +23,7 @@ public class LightController {
 	private HashMap<Integer, SocketIOClient> lightMap;
 
 	/**
-	 * Creates a new LightController and sets up the SocketIO server to recieve
+	 * Creates a new LightController and sets up the SocketIO server to receive
 	 * light events
 	 */
 	private LightController() {
@@ -108,7 +108,7 @@ public class LightController {
 
 		@Override
 		public void onConnect(SocketIOClient client) {
-
+			System.out.println(client.getHandshakeData().getAddress().getHostName());
 		}
 
 	};

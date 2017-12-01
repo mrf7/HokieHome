@@ -17,3 +17,19 @@ There are three hardware components that are necessary for this project. The fir
 
     4.Add light
     There is an add light button located in the main page of the android app. The server provides a list of available light sources to the app. The user can then select a light and associate it with a specific room.
+    
+3.  Third party libraries and version information:
+    
+    1. JUnit
+    2. Android 3.01
+    3. AltBeacon
+    4. Gradle
+    5. Maven
+    6. netty-socketio
+    7. socket.io-client-java
+    8. org.json
+    9. RPi.GPIO
+    10. socketIO-client 0.7.2 (Python Package Index)
+
+    
+    

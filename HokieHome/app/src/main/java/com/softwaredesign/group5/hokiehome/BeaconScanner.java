@@ -15,6 +15,7 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 
 /**
@@ -42,26 +43,20 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
         return beaconManager;
     }
 
+
+    /**
+     * Constructor
+     * @param c app context
+     * @param manager the IO Manager
+     */
     public BeaconScanner( Context c, Manager manager) {
         appC = c;
         beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(getApplicationContext());
-        beaconManager.setBackgroundBetweenScanPeriod(2000l);
+        beaconManager.setBackgroundBetweenScanPeriod(1000l);
         beaconManager.setForegroundBetweenScanPeriod(500l);
         m = manager;
         beaconManager.bind(this);
 
-        // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
-        // find a different type of beacon, you must specify the byte layout for that beacon's
-        // advertisement with a line like below.  The example shows how to find a beacon with the
-        // same byte layout as AltBeacon but with a beaconTypeCode of 0xaabb.  To find the proper
-        // layout expression for other beacon types, do a web search for "setBeaconLayout"
-        // including the quotes.
-        //
-        //beaconManager.getBeaconParsers().clear();
-        //beaconManager.getBeaconParsers().add(new BeaconParser().
-        //        setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
-
-        Log.d(TAG, "setting up background monitoring for beacons and power saving");
         // wake up the app when a beacon is seen
         region = new Region("backgroundRegion",
                 null, null, null);
@@ -70,10 +65,10 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
 
         //Uncomment the below methods for testing simulated beacons
         //It should list the beacon names as they are found in Logcat
-        //The beacons should be in the order LivingRoom, Kitchen, Bathroom, DiningRoom
+        //The beacons should be in the order 1, 2, 3, 4
         //The TAG "BeaconReferenceApp" can be used in Logcat to filter the results.
-        BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
-        ((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
+        //BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
+        //((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
     }
 
 
@@ -94,25 +89,41 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
         //Log.d(TAG,"I have just switched from seeing/not seeing beacons: " + state);
     }
 
+    //scans beacons in the area and finds all visible
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-
-        Log.d(TAG,"Scanned");
         if (beacons.size() > 0) {
             Double distance = Double.MAX_VALUE;
             Beacon closestBeacon = currentClosest;
+            String str = "";
             for (Beacon b : beacons) {
                 Double dis = b.getDistance();
-                if (dis < distance) ;
+                if (dis < distance)
                 {
+                    byte[] bytearray = b.getId1().toByteArray();
+                    try {
+                        str = new String(bytearray, "UTF-8");
+                        str = str.trim();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     closestBeacon = b;
                     distance = dis;
                 }
             }
-            if (currentClosest == null || !closestBeacon.getBluetoothName().equals(currentClosest.getBluetoothName())) {
+            if (currentClosest == null || !closestBeacon.getId1().toString().equals(currentClosest.getId1().toString())) {
+                Log.d(TAG,"Closet Beacon " + str + "\n" );
+                if (currentClosest != null)
+                {
+                    try {
+                        m.leftRoom(new String(currentClosest.getId1().toByteArray(), "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
                 currentClosest = closestBeacon;
-                Log.d(TAG,currentClosest.getBluetoothName());
-                m.enteredRoom(currentClosest.getBluetoothName());
+                m.enteredRoom(str);
+
             }
         }
 

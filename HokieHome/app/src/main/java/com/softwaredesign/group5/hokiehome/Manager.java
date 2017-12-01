@@ -34,7 +34,7 @@ public class Manager {
     public Manager (User u)
     {
         currentUser = u;
-        socket.connect();
+        socket.connect(u);
     }
 
     public Beacon getCurrentClosest() {
@@ -60,11 +60,13 @@ public class Manager {
 
     }
 
+    ///method used to ask the server for list of lights
     public void checkForLights(Activity a)
     {
         socket.checkforLights(a);
     }
 
+    //method used to ask server for list of rooms
     public void checkForRooms(Activity a)
     {
         socket.checkForRoom(a);
@@ -105,5 +107,8 @@ public class Manager {
         }
     }
 
-
+    //tell server that user left the room
+    public void leftRoom(String s) {
+        socket.exitedRoom(s);
+    }
 }

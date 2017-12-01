@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,9 @@ import java.util.Iterator;
 public class SocketIO {
 
     private Activity mainActivity;
-    private String Ip_Port = "http://10.0.0.100:10443";
+
+
+    private String Ip_Port = "http://10.0.0.116:9092";
     private JSONObject lastCommand;
 
     public JSONObject getLastCommand() {
@@ -47,11 +50,11 @@ public class SocketIO {
         try {
             mSocket = IO.socket(Ip_Port);
 
-            Log.d("BeaconReferenceApp", "Success");
+            Log.d("BeaconReferenceApp", "Connection Successful");
 
         } catch (URISyntaxException e) {
 
-            Log.d("BeaconReferenceApp","Failure");
+            Log.d("BeaconReferenceApp","Connection Failed");
         }
     }
 
@@ -74,14 +77,22 @@ public class SocketIO {
         mSocket.emit("getNewLights", "");
     }
 
-    public void connect()
+    public void connect(User u)
     {
         mSocket.connect();
         Log.d("debug", "connect");
-        sendUserInfo();
+        sendUserInfo(u);
     }
 
-    private void sendUserInfo() {
+    private void sendUserInfo(User u) {
+        JSONObject user = new JSONObject();
+        try {
+            user.put("prefBrightness", u.getPreBrightness());
+            user.put("name", u.getUsername());
+            mSocket.emit("userIdent", user.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -90,7 +101,7 @@ public class SocketIO {
      * @param message
      */
     public void addLight(JSONObject message) {
-        mSocket.emit("addLight", message);
+        mSocket.emit("addLight", message.toString());
         lastCommand = message;
     }
 
@@ -99,7 +110,7 @@ public class SocketIO {
      * @param message
      */
     public void setBrightness(JSONObject message) {
-        mSocket.emit("setBrightness", message);
+        mSocket.emit("setBrightness", message.toString());
         lastCommand = message;
     }
 
@@ -112,10 +123,18 @@ public class SocketIO {
         lastCommand = message;
     }
 
+    public void exitedRoom(String s) {
+        mSocket.emit("exitedRoom", s);
+        try {
+            lastCommand = new JSONObject().put("room", s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /**
-     * listens to server callbacks
+     * listens to server for room callbacks
      */
     private Emitter.Listener checkForRoom = new Emitter.Listener() {
 
@@ -124,12 +143,13 @@ public class SocketIO {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("BeaconReferenceApp", "Got some data");
+                    Log.d("Callbacks", "CheckForRoomsReceived");
                     JSONObject data = null;
                     try {
                         data = new JSONObject((String) args[0]);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        return;
                     }
                     ArrayList<Room> rooms = new ArrayList<>();
                     try {
@@ -147,30 +167,32 @@ public class SocketIO {
                             }
                             rooms.add(cRoom);
                         }
-                        ((MainActivity) mainActivity).passRooms(rooms);
+                        if (mainActivity != null) {
+                            ((MainActivity) mainActivity).passRooms(rooms);
+                        }
                     } catch (JSONException e) {
                         return;
                     }
-                    Log.d("BeaconReferenceApp", rooms.get(0).getName() + rooms.get(0).getLights().get(0).getId());
                 }
             });
         }
     };
 
     /**
-     * listens to server callbacks
+     * listens to server light callbacks
      */
     private Emitter.Listener checkForLights = new Emitter.Listener() {
 
         @Override
         public void call(final Object... args) {
-            new Runnable() {
+            mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("debug", "recieved info");
+                    Log.d("Callbacks", "CheckForLightsRecieved");
                     JSONArray data = (JSONArray) args[0];
                     ArrayList<Light> lights = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++)
+
                     {
                         try {
                             Light cLight = new Light((Integer) data.get(i));
@@ -180,9 +202,14 @@ public class SocketIO {
                         }
                     }
                     // add the message to view
-                    ((AddLightActivity) mainActivity).passNewLights(lights);
+                    if (mainActivity != null)
+                    {
+                        ((AddLightActivity) mainActivity).passNewLights(lights);
+                    }
                 }
-            };
+            });
         }
     };
+
+
 }
