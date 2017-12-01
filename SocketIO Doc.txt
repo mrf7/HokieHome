@@ -33,7 +33,9 @@ Server-App Communication Events
 		data: JSONObject
         ex: {"room": "bedroom",
              "userName": "Jordan"}
-		
+	"exitedRoom": App->Server
+        Sent by phone when user exits room
+        data: String
 	"setBrightness": App->Server
 		Sent to change brightness of light
 		data: JSONObject
