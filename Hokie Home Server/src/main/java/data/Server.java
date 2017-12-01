@@ -1,74 +1,88 @@
 package data;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import java.util.LinkedList;
+import controllers.LightController;
+import controllers.LightController.LightListener;
+import controllers.MobileController;
+import controllers.MobileController.MobileListener;
 
-public class Server
-{
+public class Server implements LightListener, MobileListener {
+	private static Server instance = null;
+	private static ArrayList<Light> newLights;
+	private static HashMap<String, Room> rooms;
+	private static HashMap<String, User> users;
+	// Create the server instance to store controllers and listeners
+	private Server() {
+		LightController lightController = LightController.getInstance();
+		MobileController mobileController = MobileController.getInstance();
+		rooms = new HashMap<String, Room>();
+		newLights = new ArrayList<Light>();
+		users=new HashMap<String, User>();
+		lightController.registerListener(this);
+		mobileController.registerListener(this);
+	}
+	
+	// Get the instance of the Server, creating if necessary.
+	public static Server getInstance() {
+		if (instance == null) {
+			instance = new Server();
+		}
+		return instance;
+	}
+	
+	//Getters
+	public static HashMap<String, Room> getRooms() {
+		return rooms;
+	}
 
-    private LinkedList<Room> rooms;
-    private LinkedList<DashButton> buttons;
-    private LinkedList<User> user;
-    
-    public Server()
-    {
-        rooms = new LinkedList<Room>();
-        buttons= new LinkedList<DashButton>();
-        user = new LinkedList<User>();
-    }
-    public void onButtonPress(String mac)
-    {
-        
-    }
-    public void onRoomEntered(Room room, User user)
-    {
-        
-    }
-    public void onRoomLeft(Room room, User user)
-    {
-        
-    }
-    public boolean addRoom(Room r)
-    {
-        return rooms.add(r);
-    }
-    public boolean addButton(DashButton button)
-    {
-        return buttons.add(button);
-    }
-    public boolean removeButton(DashButton button)
-    {
-        if(buttons.size() == 0)
-        {
-            return false;
-        }
-        return buttons.remove(button);
-    }
-    public boolean addUser(User use)
-    {
-        return user.add(use);
-    }
-    public boolean removeUser(User use)
-    {
-        if(user.size() == 0)
-        {
-            return false;
-        }
-        return user.remove(use);
-    }
-    public Room[] getRooms()
-    {
-        return rooms.toArray(new Room[0]);
-    }
-    public DashButton[] getButtons()
-    {
-        return buttons.toArray(new DashButton[0]);
-    }
-    public User[] getUsers()
-    {
-        return user.toArray(new User[0]);
-    }
-     
-    
+	public static ArrayList<Light> getNewLights() {
+		return newLights;
+	}
 
-    
+	@Override
+	public void onLightConnected(Light newLight, String room) {
+		if (room != null) {
+			if (!rooms.containsKey(room)) {
+				Room newRoom = new Room(room);
+				newRoom.addLight(newLight);
+				rooms.put(room, newRoom);
+			} else {
+				rooms.get(room);
+			}
+		} else {
+			newLights.add(newLight);
+		}
+
+	}
+
+	@Override
+	public void onUserConnected(User user) {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void onUserEnteredRoom(String userName, String roomName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRoomExit(String room) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSetBrightness(int lightID, int brightness) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAddLight(int lightID, String room) {
+		// TODO Auto-generated method stub
+		
+	}
 }
