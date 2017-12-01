@@ -33,4 +33,7 @@ public class User
         return false;
     }
     
+    public String toString() {
+    	return "UserName: " + username +", Brightness Pref: " + prefBrightness;
+    }
 }

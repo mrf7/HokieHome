@@ -67,7 +67,14 @@ public class Server implements LightListener, MobileListener {
 		} else { // Add light to list of not set up lights
 			newLights.add(newLight);
 		}
-
+		//Flash the light to indicate connection
+		newLight.turnOn();
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		newLight.turnOff();
 	}
 
 	// User controller callbacks

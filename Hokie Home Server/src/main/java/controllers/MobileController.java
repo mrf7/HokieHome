@@ -12,6 +12,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 
 import data.Light;
+import data.Room;
 import data.Server;
 import data.User;
 import socketIO.SocketManager;
@@ -155,10 +156,17 @@ public class MobileController {
 	private DataListener<String> getRoomsListener = new DataListener<String>() {
 		@Override
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) {
-			String sample = "";
-			System.out.println("Received request");
-			client.sendEvent("roomsCallback", sample);
-			//TODO getRooms
+			HashMap<String, Room> rooms = Server.getRooms();
+			JSONObject roomsJSON = new JSONObject();
+			try {
+				for (Room room : rooms.values()) {
+					JSONArray lights = new JSONArray(room.getLights());
+					roomsJSON.append(room.getRoomName(), lights);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			client.sendEvent("roomsCallback", roomsJSON.toString());
 		}
 
 	};
