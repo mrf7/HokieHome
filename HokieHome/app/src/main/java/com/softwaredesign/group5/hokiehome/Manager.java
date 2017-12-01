@@ -34,7 +34,7 @@ public class Manager {
     public Manager (User u)
     {
         currentUser = u;
-        socket.connect();
+        socket.connect(u);
     }
 
     public Beacon getCurrentClosest() {
@@ -106,4 +106,7 @@ public class Manager {
     }
 
 
+    public void leftRoom(String s) {
+        socket.exitedRoom(s);
+    }
 }

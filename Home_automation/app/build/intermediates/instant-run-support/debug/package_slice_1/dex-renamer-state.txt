@@ -1,0 +1,4 @@
+#Fri Nov 24 12:00:29 EST 2017
+base.0=C\:\\Users\\zhang\\AndroidStudioProjects\\Home_automation\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+path.0=classes.dex
+renamed.0=classes.dex

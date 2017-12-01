@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,14 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Jordan on 11/22/2017.
@@ -26,8 +30,14 @@ import java.net.URISyntaxException;
 public class SocketIO {
 
     private Activity mainActivity;
+
+    public boolean isRecievedcallback() {
+        return recievedcallback;
+    }
+
     private String Ip_Port = "http://10.0.0.100:9092";
     private JSONObject lastCommand;
+    private boolean recievedcallback = false;
 
     public JSONObject getLastCommand() {
         return lastCommand;
@@ -44,11 +54,11 @@ public class SocketIO {
         try {
             mSocket = IO.socket(Ip_Port);
 
-            Log.d("BeaconReferenceApp", "Success");
+            Log.d("BeaconReferenceApp", "Connection Successful");
 
         } catch (URISyntaxException e) {
 
-            Log.d("BeaconReferenceApp","Failure");
+            Log.d("BeaconReferenceApp","Connection Failed");
         }
     }
 
@@ -58,27 +68,37 @@ public class SocketIO {
 
     public void checkForRoom (Activity a)
     {
+        Log.d("debug", "request");
         mainActivity = a;
-        mSocket.emit("getRooms");
-        mSocket.on("Room", checkForRoom);
-        mSocket.off("Lights");
+        mSocket.on("roomsCallback", checkForRoom);
+        mSocket.emit("getRooms", "");
+        recievedcallback = false;
     }
 
     public void checkforLights(Activity a)
     {
         mainActivity = a;
-        mSocket.emit("getNewLights");
-        mSocket.on("Lights", checkForLights);
-        mSocket.off("Room");
+        mSocket.on("newLightsCallback", checkForLights);
+        mSocket.emit("getNewLights", "");
+        recievedcallback = false;
     }
 
-    public void connect()
+    public void connect(User u)
     {
         mSocket.connect();
-        sendUserInfo();
+        Log.d("debug", "connect");
+        sendUserInfo(u);
     }
 
-    private void sendUserInfo() {
+    private void sendUserInfo(User u) {
+        JSONObject user = new JSONObject();
+        try {
+            user.put("prefBrightness", u.getPreBrightness());
+            user.put("name", u.getUsername());
+            mSocket.emit("userIdent", user.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -87,7 +107,7 @@ public class SocketIO {
      * @param message
      */
     public void addLight(JSONObject message) {
-        mSocket.emit("addLight", message);
+        mSocket.emit("addLight", message.toString());
         lastCommand = message;
     }
 
@@ -96,7 +116,7 @@ public class SocketIO {
      * @param message
      */
     public void setBrightness(JSONObject message) {
-        mSocket.emit("setBrightness", message);
+        mSocket.emit("setBrightness", message.toString());
         lastCommand = message;
     }
 
@@ -104,12 +124,19 @@ public class SocketIO {
      * method used to send a command message
      * @param message
      */
-    public void enteredRoom(JSONObject message) throws JSONException {
+    public void enteredRoom(JSONObject message) {
         mSocket.emit("enteredRoom", message.toString());
-        Log.d("BeaconReferenceApp", String.valueOf(message.get("Name")));
         lastCommand = message;
     }
 
+    public void exitedRoom(String s) {
+        mSocket.emit("exitedRoom", s);
+        try {
+            lastCommand = new JSONObject().put("room", s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -119,23 +146,41 @@ public class SocketIO {
 
         @Override
         public void call(final Object... args) {
-            new Runnable() {
+            mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String username;
-                    String message;
+                    Log.d("Callbacks", "CheckForRoomsReceived");
+                    recievedcallback = true;
+                    JSONObject data = null;
                     try {
-                        username = data.getString("username");
-                        message = data.getString("message");
+                        data = new JSONObject((String) args[0]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Room> rooms = new ArrayList<>();
+                    try {
+                        Iterator<String> keys = data.keys();
+                        while (keys.hasNext())
+                        {
+                            String currentKey = keys.next();
+                            Room cRoom = new Room(currentKey);
+                            JSONArray lights = data.getJSONArray(currentKey);
+                            for(int i = 0; i < lights.length(); i++)
+                            {
+                                Light cLight = new Light(((JSONObject) lights.get(i)).getInt("lightId"));
+                                cLight.setCurrentBrightness(((JSONObject) lights.get(i)).getInt("brightness"));
+                                cRoom.addLight(cLight);
+                            }
+                            rooms.add(cRoom);
+                        }
+                        if (mainActivity != null) {
+                            ((MainActivity) mainActivity).passRooms(rooms);
+                        }
                     } catch (JSONException e) {
                         return;
                     }
-
-                    // add the message to view
-                    //addMessage(username, message);
                 }
-            };
+            });
         }
     };
 
@@ -146,23 +191,32 @@ public class SocketIO {
 
         @Override
         public void call(final Object... args) {
-            new Runnable() {
+            mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    String username;
-                    String message;
-                    try {
-                        username = data.getString("username");
-                        message = data.getString("message");
-                    } catch (JSONException e) {
-                        return;
-                    }
+                    Log.d("Callbacks", "CheckForLightsRecieved");
+                    recievedcallback = true;
+                    JSONArray data = (JSONArray) args[0];
+                    ArrayList<Light> lights = new ArrayList<>();
+                    for(int i = 0; i < data.length(); i++)
 
+                    {
+                        try {
+                            Light cLight = new Light((Integer) data.get(i));
+                            lights.add(cLight);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     // add the message to view
-                    //addMessage(username, message);
+                    if (mainActivity != null)
+                    {
+                        ((AddLightActivity) mainActivity).passNewLights(lights);
+                    }
                 }
-            };
+            });
         }
     };
+
+
 }

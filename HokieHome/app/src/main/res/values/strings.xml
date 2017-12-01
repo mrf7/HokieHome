@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Hokie Home</string>
-    <string name="room_1">Room 1</string>
-    <string name="room_4">Room 4</string>
-    <string name="room_3">Room 3</string>
-    <string name="room_2">Room 2</string>
     <string name="room_name">Room name</string>
     <string name="brightness">Brightness</string>
+    <string name="add_light">Add light</string>
+    <string name="select_the_possible_lights_to_add">Select the possible lights to add</string>
+    <string name="room">Room</string>
+    <string name="on">ON</string>
+    <string name="button">Button</string>
+    <string name="add">Add</string>
     <string name="IP_Port">http://10.0.0.106:9092</string>
 </resources>
