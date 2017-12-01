@@ -106,4 +106,7 @@ public class Manager {
     }
 
 
+    public void leftRoom(String s) {
+        socket.exitedRoom(s);
+    }
 }

@@ -1,5 +1,6 @@
 package com.softwaredesign.group5.hokiehome;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.json.JSONException;
@@ -67,7 +68,5 @@ public class SocketIOTest {
         }
 
     }
-
-
 
 }

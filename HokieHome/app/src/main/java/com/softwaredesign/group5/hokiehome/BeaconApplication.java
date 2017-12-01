@@ -1,6 +1,11 @@
 package com.softwaredesign.group5.hokiehome;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.RemoteException;
 import android.util.Log;
 

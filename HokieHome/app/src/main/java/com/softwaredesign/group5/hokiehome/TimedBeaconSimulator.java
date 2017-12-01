@@ -80,13 +80,13 @@ public class TimedBeaconSimulator implements org.altbeacon.beacon.simulator.Beac
         if (USE_SIMULATED_BEACONS){
             beacons = new ArrayList<Beacon>();
             Beacon beacon1 = new Beacon.Builder().setBluetoothAddress("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
-                    .setBluetoothName("LivingRoom").setId3("1").setRssi(-55).setTxPower(-55).build();
+                    .setBluetoothName("LivingRoom").setId1("1").setId3("1").setRssi(-55).setTxPower(-55).build();
             Beacon beacon2 = new Beacon.Builder().setBluetoothAddress("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
-                    .setBluetoothName("Kitchen").setId3("2").setRssi(-55).setTxPower(-55).build();
+                    .setBluetoothName("Kitchen").setId1("2").setId3("2").setRssi(-55).setTxPower(-55).build();
             Beacon beacon3 = new Beacon.Builder().setBluetoothAddress("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
-                    .setBluetoothName("Bathroom").setId3("3").setRssi(-55).setTxPower(-55).build();
+                    .setBluetoothName("Bathroom").setId1("3").setId3("3").setRssi(-55).setTxPower(-55).build();
             Beacon beacon4 = new Beacon.Builder().setBluetoothAddress("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
-                    .setBluetoothName("DiningRoom").setId3("4").setRssi(-55).setTxPower(-55).build();
+                    .setBluetoothName("DiningRoom").setId1("4").setId3("4").setRssi(-55).setTxPower(-55).build();
             beacons.add(beacon1);
             beacons.add(beacon2);
             beacons.add(beacon3);

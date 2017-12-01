@@ -30,8 +30,14 @@ import java.util.Iterator;
 public class SocketIO {
 
     private Activity mainActivity;
-    private String Ip_Port = "http://10.0.0.100:10443";
+
+    public boolean isRecievedcallback() {
+        return recievedcallback;
+    }
+
+    private String Ip_Port = "http://10.0.0.100:9092";
     private JSONObject lastCommand;
+    private boolean recievedcallback = false;
 
     public JSONObject getLastCommand() {
         return lastCommand;
@@ -48,11 +54,11 @@ public class SocketIO {
         try {
             mSocket = IO.socket(Ip_Port);
 
-            Log.d("BeaconReferenceApp", "Success");
+            Log.d("BeaconReferenceApp", "Connection Successful");
 
         } catch (URISyntaxException e) {
 
-            Log.d("BeaconReferenceApp","Failure");
+            Log.d("BeaconReferenceApp","Connection Failed");
         }
     }
 
@@ -66,6 +72,7 @@ public class SocketIO {
         mainActivity = a;
         mSocket.on("roomsCallback", checkForRoom);
         mSocket.emit("getRooms", "");
+        recievedcallback = false;
     }
 
     public void checkforLights(Activity a)
@@ -73,6 +80,7 @@ public class SocketIO {
         mainActivity = a;
         mSocket.on("newLightsCallback", checkForLights);
         mSocket.emit("getNewLights", "");
+        recievedcallback = false;
     }
 
     public void connect(User u)
@@ -87,7 +95,7 @@ public class SocketIO {
         try {
             user.put("prefBrightness", u.getPreBrightness());
             user.put("name", u.getUsername());
-            mSocket.emit("userIdent", user);
+            mSocket.emit("userIdent", user.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -99,7 +107,7 @@ public class SocketIO {
      * @param message
      */
     public void addLight(JSONObject message) {
-        mSocket.emit("addLight", message);
+        mSocket.emit("addLight", message.toString());
         lastCommand = message;
     }
 
@@ -108,7 +116,7 @@ public class SocketIO {
      * @param message
      */
     public void setBrightness(JSONObject message) {
-        mSocket.emit("setBrightness", message);
+        mSocket.emit("setBrightness", message.toString());
         lastCommand = message;
     }
 
@@ -121,6 +129,14 @@ public class SocketIO {
         lastCommand = message;
     }
 
+    public void exitedRoom(String s) {
+        mSocket.emit("exitedRoom", s);
+        try {
+            lastCommand = new JSONObject().put("room", s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -133,7 +149,8 @@ public class SocketIO {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("BeaconReferenceApp", "Got some data");
+                    Log.d("Callbacks", "CheckForRoomsRecieved");
+                    recievedcallback = true;
                     JSONObject data = null;
                     try {
                         data = new JSONObject((String) args[0]);
@@ -156,11 +173,12 @@ public class SocketIO {
                             }
                             rooms.add(cRoom);
                         }
-                        ((MainActivity) mainActivity).passRooms(rooms);
+                        if (mainActivity != null) {
+                            ((MainActivity) mainActivity).passRooms(rooms);
+                        }
                     } catch (JSONException e) {
                         return;
                     }
-                    Log.d("BeaconReferenceApp", rooms.get(0).getName() + rooms.get(0).getLights().get(0).getId());
                 }
             });
         }
@@ -173,10 +191,11 @@ public class SocketIO {
 
         @Override
         public void call(final Object... args) {
-            new Runnable() {
+            mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("debug", "recieved info");
+                    Log.d("Callbacks", "CheckForLightsRecieved");
+                    recievedcallback = true;
                     JSONArray data = (JSONArray) args[0];
                     ArrayList<Light> lights = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++)
@@ -189,9 +208,14 @@ public class SocketIO {
                         }
                     }
                     // add the message to view
-                    ((AddLightActivity) mainActivity).passNewLights(lights);
+                    if (mainActivity != null)
+                    {
+                        ((AddLightActivity) mainActivity).passNewLights(lights);
+                    }
                 }
-            };
+            });
         }
     };
+
+
 }

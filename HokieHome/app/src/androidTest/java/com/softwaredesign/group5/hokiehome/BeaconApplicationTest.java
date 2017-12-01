@@ -70,4 +70,6 @@ public class BeaconApplicationTest{
         assertEquals("manufacturer should be parsed", 0x118 ,beacon.getManufacturer());
         assertEquals("missing data field zero should be zero", new Long(0l), beacon.getDataFields().get(0));
     }
+
+
 }
