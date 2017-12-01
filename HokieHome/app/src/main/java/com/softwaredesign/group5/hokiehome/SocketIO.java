@@ -35,7 +35,7 @@ public class SocketIO {
         return recievedcallback;
     }
 
-    private String Ip_Port = "http://10.0.0.100:9092";
+    private String Ip_Port = "http://10.0.0.116:9092";
     private JSONObject lastCommand;
     private boolean recievedcallback = false;
 
@@ -156,6 +156,7 @@ public class SocketIO {
                         data = new JSONObject((String) args[0]);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        return;
                     }
                     ArrayList<Room> rooms = new ArrayList<>();
                     try {
