@@ -81,6 +81,7 @@ public class MobileController {
 			JSONObject jsonData;
 			String userName;
 			int prefBrightness;
+			
 			try {
 				jsonData = new JSONObject(data);
 				userName = jsonData.getString("name");
@@ -106,7 +107,7 @@ public class MobileController {
 			try {
 				jsonData = new JSONObject(data);
 				room = jsonData.getString("room");
-				userName = jsonData.getString("userName");
+				userName = jsonData.getString("user");
 			} catch (JSONException e) {
 				System.out.println("Bad data recieved in enteredRoom:" + data);
 				return;
@@ -140,7 +141,7 @@ public class MobileController {
 			int lightBrightness;
 			try {
 				jsonData = new JSONObject(data);
-				lightID = jsonData.getInt("lightID");
+				lightID = jsonData.getInt("id");
 				lightBrightness = jsonData.getInt("brightness");
 			} catch (JSONException e) {
 				System.out.println("Bad data received from setBrightness" + data);
@@ -158,14 +159,20 @@ public class MobileController {
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) {
 			HashMap<String, Room> rooms = Server.getRooms();
 			JSONObject roomsJSON = new JSONObject();
+			System.out.println(rooms);
+			System.out.println(Server.getRooms());
 			try {
 				for (Room room : rooms.values()) {
-					JSONArray lights = new JSONArray(room.getLights());
+					JSONArray lights = new JSONArray();
+					for (Light light : room.getLights()) {
+						lights.put(light.getId());
+					}
 					roomsJSON.append(room.getRoomName(), lights);
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+			System.out.println("Rooms callback: " +roomsJSON.toString());
 			client.sendEvent("roomsCallback", roomsJSON.toString());
 		}
 
@@ -176,7 +183,11 @@ public class MobileController {
 		@Override
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) throws Exception {
 			ArrayList<Light> newLights = Server.getNewLights();
-			JSONArray jsonArray = new JSONArray(newLights);
+			JSONArray jsonArray = new JSONArray();
+			for (Light light : newLights) {
+				jsonArray.put(light.getId());
+			}
+			System.out.println(jsonArray.toString());
 			client.sendEvent("newLightsCallback", jsonArray.toString());
 		}
 
@@ -191,7 +202,7 @@ public class MobileController {
 			String room;
 			try {
 				jsonData = new JSONObject(data);
-				lightID = jsonData.getInt("lightId");
+				lightID = jsonData.getInt("id");
 				room = jsonData.getString("room");
 			} catch (JSONException e) {
 				System.out.println("Bad data received from addLight" + data);

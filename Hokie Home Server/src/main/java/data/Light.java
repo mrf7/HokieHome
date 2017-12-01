@@ -17,6 +17,7 @@ public class Light {
 	public boolean setBrightness(int bright) {
 		if (controller.setBrightness(id, bright)) {
 			brightness = bright;
+			System.out.println("bright ness set to: " + brightness);
 			return true;
 		} else {
 			return false;

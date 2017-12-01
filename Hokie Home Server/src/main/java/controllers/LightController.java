@@ -20,7 +20,7 @@ public class LightController {
 
 	private ArrayList<LightListener> listeners;
 	private final SocketIOServer server;
-	private HashMap<Integer, SocketIOClient> lightMap;
+	private HashMap<Integer, SocketIOClient> socketMap;
 
 	/**
 	 * Creates a new LightController and sets up the SocketIO server to receive
@@ -29,8 +29,7 @@ public class LightController {
 	private LightController() {
 		server = SocketManager.getInstance();
 		server.addEventListener("lightIdent", String.class, identListener);
-		server.addConnectListener(connectListener);
-		lightMap = new HashMap<Integer, SocketIOClient>();
+		socketMap = new HashMap<Integer, SocketIOClient>();
 		listeners = new ArrayList<LightListener>();
 	}
 
@@ -74,7 +73,7 @@ public class LightController {
 	 * @return true if the event was sent
 	 */
 	public boolean setBrightness(int lightID, int bright) {
-		SocketIOClient lightClient = lightMap.get(lightID);
+		SocketIOClient lightClient = socketMap.get(lightID);
 		// Make sure the light id is valid and the brightness is in acceptable range
 		if (lightClient == null || bright > 100 || bright < 0) {
 			return false;
@@ -93,7 +92,7 @@ public class LightController {
 	 * @return true if the event was sent
 	 */
 	public boolean setRoom(Light light, Room room) {
-		SocketIOClient lightClient = lightMap.get(light.getId());
+		SocketIOClient lightClient = socketMap.get(light.getId());
 		// Make sure the light id is valid and the room name is not null
 		if (lightClient == null || room.getRoomName() == null) {
 			return false;
@@ -104,14 +103,6 @@ public class LightController {
 
 
 	// Listeners
-	private ConnectListener connectListener = new ConnectListener() {
-
-		@Override
-		public void onConnect(SocketIOClient client) {
-			System.out.println(client.getHandshakeData().getAddress().getHostName());
-		}
-
-	};
 	private DataListener<String> identListener = new DataListener<String>() {
 		@Override
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) throws Exception {
@@ -129,7 +120,7 @@ public class LightController {
 			}
 
 			// Add the light to the hashmap to control it based on the id
-			lightMap.put(id, client);
+			socketMap.put(id, client);
 		}
 
 	};

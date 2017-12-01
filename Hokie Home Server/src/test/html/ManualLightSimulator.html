@@ -52,8 +52,10 @@
 		function sendMessage() {
                         var room = $('#room').val();
                         $('#room').val('');
-
-                        var ident = "{'id': "+id+ ", 'room': "+ room + "}";
+						if (room == "") {
+							room == "!NOROOM";
+						}
+                        var ident = "{'id': 3, 'room': !NOROOM}";
 						 
                         socket.emit('lightIdent', ident);
 		}

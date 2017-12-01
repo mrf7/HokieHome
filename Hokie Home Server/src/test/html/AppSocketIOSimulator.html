@@ -28,13 +28,12 @@
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
 	<script>
-
-                var id = Math.floor((Math.random()*1000)+1);
-
 		var socket =  io.connect('http://localhost:9092');
 
 		socket.on('connect', function() {
-			output('<span class="connect-msg">Client has connected to the server!</span>');
+			var identPacket = "{'name': 'Michael', 'prefBrightness': 69}"
+			socket.emit("userIdent", identPacket)
+			output('<span class="connect-msg">Connected to the server!</span>');
 		});
 
 		socket.on('changeBrightness', function(data) {
@@ -55,7 +54,7 @@
 
                         var ident = "{'id': "+id+ ", 'room': "+ room + "}";
 						 
-                        socket.emit('lightIdent', ident);
+                        socket.emit('enteredRoom', "{'room': 'yellow', 'userName':'Michael'}");
 		}
 
 		function output(message) {

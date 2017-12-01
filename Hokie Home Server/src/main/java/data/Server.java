@@ -90,6 +90,7 @@ public class Server implements LightListener, MobileListener {
 		// This will replace an old instance if username already exists and create a new
 		// entry otherwise
 		users.put(user.getUsername(), user);
+		System.out.println("User connected: " + user);
 	}
 
 	@Override
