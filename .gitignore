@@ -12,6 +12,7 @@
 
 # Package Files #
 *.jar
+!java-json.jar
 *.war
 *.ear
 *.zip

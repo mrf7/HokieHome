@@ -15,7 +15,7 @@ public class SocketManager {
 		//Set up the configuration for the server
 		Configuration config = new Configuration();
 	    config.setPort(10443);
-	    config.setKeyStorePassword("sup3rsecurepasswerd@NOHAXORS");
+	    config.setKeyStorePassword("test1234");
         InputStream stream = SslChatLauncher.class.getResourceAsStream("/keystore.jks");
         config.setKeyStore(stream);
 	    //Begin the socketio server
