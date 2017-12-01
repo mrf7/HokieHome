@@ -130,7 +130,22 @@ public class Server implements LightListener, MobileListener {
 
 	@Override
 	public void onSetBrightness(int lightID, int brightness) {
-		if (!lightController.setBrightness(lightID, brightness)) {
+		Light current = null;
+		for (Light light : newLights)
+		{
+			if (light.getId() == lightID)
+			{
+				current = light;
+				break;
+			}	
+		}
+		if (light != null)
+		{
+			light.setBrightness(brightness);
+		}
+		//if (!lightController.setBrightness(lightID, brightness)) {
+		else
+		{
 			System.out.println("No light found for id: " + lightID);
 		}
 	}
