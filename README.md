@@ -1,10 +1,16 @@
+***What was implemented was an Android Application that used bluetooth beacons and server communications
+to control remote lights both manually and automatically. The App allowed the user to manually control the brightness of a light by 
+selecting a desired room and using a scroll bar to adjust the brightness of a light in that room. The App automatically controlled the lights by 
+using the bluetooth signals to determine the user location and turning on lights as the user enters a room and turning them off as they leave a room. 
+When automatically turned on, the light defaults to the user's preferred brightness setting. This project refers to use cases  #6, 7, 12, 15 in our Use Case Document. 
+
 1. Description of Hardware requirements: 
 There are three hardware components that are necessary for this project. The first component is a Raspberry Pi 3. These can act as bluetooth beacons when running an implementation of AltBeacon. They also function as the internet-connected hardware controller for our LED's. Using a Raspberry pi as a light also requires at least two male to female jumper cables, one LED per light, and one resistor between 100 and 1,000 ohms. The second hardware spec is that there must be a separate device functioning as the server. This requires the ability to run Maven. Finally, the last hardware requirement is that there must be a bluetooth capable android device that has the implemented app installed
 
 
 2. Use cases:
     
-    1.Turn On when user enters the room
+    1.Turn On light when user enters the room
     When a user walks into the room, the phone receives signals from present beacons.The phone chooses the strongest beacon signal and sends the associated room to the server.The server turns on the lights in the specified room.
 
     2.Turn Off light when user leaves the room
@@ -41,5 +47,3 @@ The server: You will need to install Maven in order to use our server code. It c
 The Raspberry Pi's Bluetooth Beacons: These are Raspberry pi's that have been set up to be bluetooth beacons by running the "startBeacon.py" script python startBeacon.py ROOMNAME
 
 The Raspberry Pi's Light Controllers: These are Raspberry pi's that have been set up to be light controllers by running the "LightDriver.py" script python LightDriver.py IPADDRESS IDNUM
-
-5. We realize that there are many components needed to run this project so we will include a video of the working application with this project submission within this directory. We can also present it in person if we can get it to work on the eduroam network. 
