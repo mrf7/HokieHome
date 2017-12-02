@@ -1,30 +1,31 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Room
 {
 
     private String name;
-    private LinkedList<Light> lights;
+    private ArrayList<Light> lights;
     
     public Room()
     {
         name = null; 
-        this.lights = new LinkedList<Light>();
+        this.lights = new ArrayList<Light>();
     }
     public Room(String nameto)
     {
         name = nameto;
-        this.lights = new LinkedList<Light>();
+        this.lights = new ArrayList<Light>();
     }
     public String getRoomName()
     {
         return name;
     }
-    public Light[] getLights()
+    public ArrayList<Light> getLights()
     {
-        return lights.toArray(new Light[0]);
+        return lights;
     }
     public Boolean addLight(Light light)
     {
@@ -48,7 +49,11 @@ public class Room
             light.turnOff();
         }
     }
-
+    public void setBrightness(int brightness) {
+    	for (Light light : lights) {
+    		light.setBrightness(brightness);
+    	}
+    }
     @Override
     public String toString() {
     	return name + " has lights: " +lights;

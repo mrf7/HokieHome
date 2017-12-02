@@ -12,6 +12,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 
 import data.Light;
+import data.Room;
 import data.Server;
 import data.User;
 import socketIO.SocketManager;
@@ -80,6 +81,7 @@ public class MobileController {
 			JSONObject jsonData;
 			String userName;
 			int prefBrightness;
+			
 			try {
 				jsonData = new JSONObject(data);
 				userName = jsonData.getString("name");
@@ -105,11 +107,12 @@ public class MobileController {
 			try {
 				jsonData = new JSONObject(data);
 				room = jsonData.getString("room");
-				userName = jsonData.getString("userName");
+				userName = jsonData.getString("user");
 			} catch (JSONException e) {
 				System.out.println("Bad data recieved in enteredRoom:" + data);
 				return;
 			}
+			System.out.println(userName + " entered " + room);
 			for (MobileListener listener : listeners) {
 				listener.onUserEnteredRoom(userName, room);
 			}
@@ -139,7 +142,7 @@ public class MobileController {
 			int lightBrightness;
 			try {
 				jsonData = new JSONObject(data);
-				lightID = jsonData.getInt("lightID");
+				lightID = jsonData.getInt("id");
 				lightBrightness = jsonData.getInt("brightness");
 			} catch (JSONException e) {
 				System.out.println("Bad data received from setBrightness" + data);
@@ -155,10 +158,22 @@ public class MobileController {
 	private DataListener<String> getRoomsListener = new DataListener<String>() {
 		@Override
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) {
-			String sample = "";
-			System.out.println("Received request");
-			client.sendEvent("roomsCallback", sample);
-			//TODO getRooms
+			HashMap<String, Room> rooms = Server.getRooms();
+			JSONObject roomsJSON = new JSONObject();
+			try {
+				for (Room room : rooms.values()) {
+					JSONArray lights = new JSONArray();
+					for (Light light : room.getLights()) {
+						lights.put(light.toJson());
+					}
+					roomsJSON.put(room.getRoomName(), lights);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return;
+			}
+			System.out.println("Rooms callback: " +roomsJSON.toString());
+			client.sendEvent("roomsCallback", roomsJSON.toString());
 		}
 
 	};
@@ -168,7 +183,10 @@ public class MobileController {
 		@Override
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) throws Exception {
 			ArrayList<Light> newLights = Server.getNewLights();
-			JSONArray jsonArray = new JSONArray(newLights);
+			JSONArray jsonArray = new JSONArray();
+			for (Light light : newLights) {
+				jsonArray.put(light.getId());
+			}
 			client.sendEvent("newLightsCallback", jsonArray.toString());
 		}
 
@@ -183,7 +201,7 @@ public class MobileController {
 			String room;
 			try {
 				jsonData = new JSONObject(data);
-				lightID = jsonData.getInt("lightId");
+				lightID = jsonData.getInt("id");
 				room = jsonData.getString("room");
 			} catch (JSONException e) {
 				System.out.println("Bad data received from addLight" + data);
