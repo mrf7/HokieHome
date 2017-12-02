@@ -24,5 +24,4 @@ public class HokieHome {
 		Server server = Server.getInstance();
 		Thread.sleep(Integer.MAX_VALUE);
 	}
-
 }

@@ -66,8 +66,8 @@ public class Server implements LightListener, MobileListener {
 				newRoom.addLight(newLight);
 				rooms.put(room, newRoom);
 			} else {
-				rooms.get(room);
-
+				rooms.get(room).addLight(newLight);
+				
 			}
 		} else { // Add light to list of not set up lights
 			newLights.add(newLight);
