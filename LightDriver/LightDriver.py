@@ -3,7 +3,7 @@ import time
 from socketIO_client import SocketIO, LoggingNamespace
 import sys
 import logging
-
+import os.path
 LED_PIN = 21
 
 #https://pypi.python.org/pypi/socketIO-client
@@ -13,10 +13,21 @@ def changeBrightness(brightness):
 	print("LED set to: ", brightness)	
     
 def onConnect(): 
-	lightIdentifier = {"id": int(sys.argv[2]),
-						"room": sys.argv[3]}
-	socketIO.emit("lightIdent", str(lightIdentifier))
-	print('connected')
+    if os.path.isfile('.room.db'):
+        roomFileString = open('.room.db')
+        room = roomFileString.read().strip()
+    else:
+        room = "!NOROOM"
+
+    lightIdentifier = {"id": int(sys.argv[2]), "room": room}
+    socketIO.emit("lightIdent", str(lightIdentifier))
+    print('connected')
+
+def setRoom(roomName): 
+    # Write the room name to a file
+    roomFileString = open('.room.db', 'w+')
+    roomFileString.write(roomName)
+    roomFileString.close()
 # Set up GPIO pins 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -30,4 +41,6 @@ logging.basicConfig()
 socketIO = SocketIO(sys.argv[1], 9092, LoggingNamespace)
 socketIO.on("changeBrightness", changeBrightness)
 socketIO.on("connect", onConnect)
+socketIO.on('reconnect',onConnect)
+socketIO.on('setRoom', setRoom)
 socketIO.wait()
