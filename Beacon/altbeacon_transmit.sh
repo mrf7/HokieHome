@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This File was found online as an example for setting up an altbeacon. 
 # AltBeacon - The Open and Interoperable Proximity Beacon Specification
 #
 # Transmit Reference Script
