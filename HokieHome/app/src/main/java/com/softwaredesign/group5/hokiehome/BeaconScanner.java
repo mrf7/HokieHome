@@ -53,10 +53,10 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
     public BeaconScanner( Context c, Manager manager) {
         appC = c;
         beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(getApplicationContext());
-        beaconManager.setBackgroundBetweenScanPeriod(2000);
+        beaconManager.setBackgroundBetweenScanPeriod(1000);
         beaconManager.setForegroundBetweenScanPeriod(1000);
-        beaconManager.setForegroundScanPeriod(2000);
-        beaconManager.setBackgroundScanPeriod(2000);
+        beaconManager.setForegroundScanPeriod(1500);
+        beaconManager.setBackgroundScanPeriod(1500);
         m = manager;
         beaconManager.bind(this);
 

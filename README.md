@@ -41,3 +41,5 @@ The server: You will need to install Maven in order to use our server code. It c
 The Raspberry Pi's Bluetooth Beacons: These are Raspberry pi's that have been set up to be bluetooth beacons by running the "startBeacon.py" script
 
 The Raspberry Pi's Light Controllers: These are Raspberry pi's that have been set up to be light controllers by running the "LightDriver.py" script
+
+5. We realize that there are many components needed to run this project so we will include a video of the working application with this project submission within this directory. We can also present it in person if we can get it to work on the eduroam network. 

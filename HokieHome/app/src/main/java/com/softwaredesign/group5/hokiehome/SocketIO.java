@@ -40,7 +40,6 @@ public class SocketIO {
     }
 
     public SocketIO()
-
     {
 
     }
@@ -66,14 +65,12 @@ public class SocketIO {
     {
         Log.d("debug", "request");
         mainActivity = a;
-        mSocket.on("roomsCallback", checkForRoom);
         mSocket.emit("getRooms", "");
     }
 
     public void checkforLights(Activity a)
     {
         mainActivity = a;
-        mSocket.on("newLightsCallback", checkForLights);
         mSocket.emit("getNewLights", "");
     }
 
@@ -82,6 +79,8 @@ public class SocketIO {
         mSocket.connect();
         Log.d("debug", "connect");
         sendUserInfo(u);
+        mSocket.on("roomsCallback", checkForRoom);
+        mSocket.on("newLightsCallback", checkForLights);
     }
 
     private void sendUserInfo(User u) {
@@ -121,6 +120,10 @@ public class SocketIO {
     public void enteredRoom(JSONObject message) {
         mSocket.emit("enteredRoom", message.toString());
         lastCommand = message;
+        if (mainActivity != null && mainActivity.getClass().equals(MainActivity.class))
+        {
+            checkForRoom(mainActivity);
+        }
     }
 
     public void exitedRoom(String s) {
@@ -148,6 +151,7 @@ public class SocketIO {
                     try {
                         data = new JSONObject((String) args[0]);
 
+                        Log.d("Debug", (String) args[0]);
                         ArrayList<Room> rooms = new ArrayList<>();
                         Iterator<String> keys = data.keys();
                         while (keys.hasNext())
