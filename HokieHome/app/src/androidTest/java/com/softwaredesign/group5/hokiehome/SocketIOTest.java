@@ -36,7 +36,7 @@ public class SocketIOTest {
         assertNotNull(IO.getmSocket());
         //if you want to test connect to a server, you need to change the IP_port to your servers
         //ip and port values and uncomment
-        //assertTrue(IO.getmSocket().connected());
+        assertTrue(IO.getmSocket().connected());
     }
 
     @Test

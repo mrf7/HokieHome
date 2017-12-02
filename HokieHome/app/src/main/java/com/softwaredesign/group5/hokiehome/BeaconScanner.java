@@ -12,6 +12,7 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
+import org.altbeacon.beacon.service.RangedBeacon;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
@@ -52,8 +53,10 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
     public BeaconScanner( Context c, Manager manager) {
         appC = c;
         beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(getApplicationContext());
-        beaconManager.setBackgroundBetweenScanPeriod(1000l);
-        beaconManager.setForegroundBetweenScanPeriod(500l);
+        beaconManager.setBackgroundBetweenScanPeriod(2000);
+        beaconManager.setForegroundBetweenScanPeriod(1000);
+        beaconManager.setForegroundScanPeriod(2000);
+        beaconManager.setBackgroundScanPeriod(2000);
         m = manager;
         beaconManager.bind(this);
 
@@ -101,9 +104,11 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
                 if (dis < distance)
                 {
                     byte[] bytearray = b.getId1().toByteArray();
+                    Log.d(TAG, bytearray.toString());
                     try {
                         str = new String(bytearray, "UTF-8");
                         str = str.trim();
+                        Log.d(TAG,"Beacon " + str + "\n" );
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -116,14 +121,16 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
                 if (currentClosest != null)
                 {
                     try {
-                        m.leftRoom(new String(currentClosest.getId1().toByteArray(), "UTF-8"));
+                        m.leftRoom(new String(currentClosest.getId1().toByteArray(), "UTF-8").trim());
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
-                currentClosest = closestBeacon;
-                m.enteredRoom(str);
-
+                if (closestBeacon != null)
+                {
+                    currentClosest = closestBeacon;
+                    m.enteredRoom(str);
+                }
             }
         }
 
@@ -135,6 +142,7 @@ public class BeaconScanner implements BootstrapNotifier, BeaconConsumer, RangeNo
 
         try {
             beaconManager.startRangingBeaconsInRegion(new Region("Name", null,null,null));
+            RangedBeacon.setSampleExpirationMilliseconds(2000);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
