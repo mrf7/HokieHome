@@ -9,11 +9,7 @@ public class Room
     private String name;
     private ArrayList<Light> lights;
     
-    public Room()
-    {
-        name = null; 
-        this.lights = new ArrayList<Light>();
-    }
+
     public Room(String nameto)
     {
         name = nameto;

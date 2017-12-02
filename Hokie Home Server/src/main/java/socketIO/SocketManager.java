@@ -5,7 +5,6 @@ import java.io.InputStream;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
-import examples.SslChatLauncher;
 //This class handles socket IO communication. It is a singleton class 
 public class SocketManager {
 	private static SocketIOServer server;

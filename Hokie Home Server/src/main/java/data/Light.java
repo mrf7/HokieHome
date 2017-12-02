@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import controllers.LightController;
 
 public class Light {
-	private int id;
+	private int id; // This replaces the ip address of the light to ensure the identifier doesnt change
 	private int brightness;
 	private static LightController controller = LightController.getInstance();
 
