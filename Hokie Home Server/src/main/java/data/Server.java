@@ -13,9 +13,11 @@ public class Server implements LightListener, MobileListener {
 	private static ArrayList<Light> newLights;
 	private static HashMap<String, Room> rooms;
 	private static HashMap<String, User> users;
-	
+	private static HashMap<Integer, Light> lights;
+
 	private LightController lightController;
 	private MobileController mobileController;
+
 	// Create the server instance to store controllers and listeners
 	private Server() {
 		lightController = LightController.getInstance();
@@ -23,6 +25,7 @@ public class Server implements LightListener, MobileListener {
 		rooms = new HashMap<String, Room>();
 		newLights = new ArrayList<Light>();
 		users = new HashMap<String, User>();
+		lights = new HashMap<Integer, Light>();
 		lightController.registerListener(this);
 		mobileController.registerListener(this);
 	}
@@ -68,7 +71,9 @@ public class Server implements LightListener, MobileListener {
 			}
 		} else { // Add light to list of not set up lights
 			newLights.add(newLight);
+			System.out.println("Light " + newLight.getId() + " not set up");
 		}
+		lights.put(newLight.getId(), newLight);
 		// Flash the light to indicate connection
 		newLight.turnOn();
 		try {
@@ -116,6 +121,7 @@ public class Server implements LightListener, MobileListener {
 
 	@Override
 	public void onRoomExit(String roomName) {
+		System.out.println("Left room: " + roomName);
 		// Get the room object
 		Room room = rooms.get(roomName);
 		if (room == null) {
@@ -130,22 +136,12 @@ public class Server implements LightListener, MobileListener {
 
 	@Override
 	public void onSetBrightness(int lightID, int brightness) {
-		Light current = null;
-		for (Light light : newLights)
-		{
-			if (light.getId() == lightID)
-			{
-				current = light;
-				break;
-			}	
-		}
-		if (light != null)
-		{
+		Light light = lights.get(lightID);
+		if (light != null) {
 			light.setBrightness(brightness);
 		}
-		//if (!lightController.setBrightness(lightID, brightness)) {
-		else
-		{
+		// if (!lightController.setBrightness(lightID, brightness)) {
+		else {
 			System.out.println("No light found for id: " + lightID);
 		}
 	}
@@ -161,14 +157,16 @@ public class Server implements LightListener, MobileListener {
 				break;
 			}
 		}
-		//If light wasnt found, print error
+		// If light wasnt found, print error
 		if (light == null) {
 			System.out.println("New light " + lightID + " not found");
 			return;
 		}
 		// Get the room to add the light too
 		Room room = rooms.get(roomName);
-		// If room doesnt exist yet, create it 
+		// Send the add light message to the light
+		lightController.setRoom(light, room);
+		// If room doesnt exist yet, create it
 		if (room == null) {
 			room = new Room(roomName);
 			rooms.put(roomName, room);

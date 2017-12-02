@@ -112,6 +112,7 @@ public class MobileController {
 				System.out.println("Bad data recieved in enteredRoom:" + data);
 				return;
 			}
+			System.out.println(userName + " entered " + room);
 			for (MobileListener listener : listeners) {
 				listener.onUserEnteredRoom(userName, room);
 			}
@@ -159,18 +160,17 @@ public class MobileController {
 		public void onData(SocketIOClient client, String data, AckRequest ackSender) {
 			HashMap<String, Room> rooms = Server.getRooms();
 			JSONObject roomsJSON = new JSONObject();
-			System.out.println(rooms);
-			System.out.println(Server.getRooms());
 			try {
 				for (Room room : rooms.values()) {
 					JSONArray lights = new JSONArray();
 					for (Light light : room.getLights()) {
-						lights.put(light.getId());
+						lights.put(light.toJson());
 					}
-					roomsJSON.append(room.getRoomName(), lights);
+					roomsJSON.put(room.getRoomName(), lights);
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+				return;
 			}
 			System.out.println("Rooms callback: " +roomsJSON.toString());
 			client.sendEvent("roomsCallback", roomsJSON.toString());
@@ -187,7 +187,6 @@ public class MobileController {
 			for (Light light : newLights) {
 				jsonArray.put(light.getId());
 			}
-			System.out.println(jsonArray.toString());
 			client.sendEvent("newLightsCallback", jsonArray.toString());
 		}
 
