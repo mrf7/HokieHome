@@ -32,4 +32,12 @@ There are three hardware components that are necessary for this project. The fir
     10. socketIO-client 0.7.2 (Python Package Index)
 
     
-    
+4. How to build/access a running version of your application:
+The android app: Your will need an android device or emulator to run the application. I would suggest using android studio so you can run the application through its emulators plus run the tests. The emulator would need to be using API with a minimum SDK version of 23. You should be able to just click run onto your target device or emulator. 
+In order to use the app with the server, the Ip_Port variable in the SocketIO class will need to be changed to match your respective IP address in the form of "http://YOURIPADDRESS:9092"
+
+The server: You will need to install Maven in order to use our server code. It can be started running the HokieHome.java file with Eclipse. This will start the server allowing the phone to now connect to the server. If the app was started before the server, just simply close the app and rerun it. 
+
+The Raspberry Pi's Bluetooth Beacons: These are Raspberry pi's that have been set up to be bluetooth beacons by running the "startBeacon.py" script
+
+The Raspberry Pi's Light Controllers: These are Raspberry pi's that have been set up to be light controllers by running the "LightDriver.py" script
